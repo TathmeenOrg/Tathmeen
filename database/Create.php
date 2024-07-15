@@ -16,14 +16,14 @@ CREATE TABLE IF NOT EXISTS users (
     UNIQUE KEY (email)
 );
 
-CREATE TABLE IF NOT EXISTS financial_offers (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE IF NOT EXISTS financialOffers (
+    financialOffer_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
     created_at DATE NOT NULL,
     association_name VARCHAR(255) NOT NULL,
     client_address VARCHAR(255) NOT NULL,
     file_name VARCHAR(255) NOT NULL,
-    total_price DECIMAL(10, 2) NOT NULL,
+    total_price DECIMAL(20, 5) NOT NULL,
     file_download_status BOOLEAN NOT NULL DEFAULT 0,
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS statements (
     id INT AUTO_INCREMENT PRIMARY KEY,
     financial_offer_id INT,
     statement_description TEXT,
-    FOREIGN KEY (financial_offer_id) REFERENCES financial_offers (id)
+    FOREIGN KEY (financial_offer_id) REFERENCES financialOffers(financialOffer_id)
 );
 
 CREATE TABLE IF NOT EXISTS services (
@@ -42,8 +42,16 @@ CREATE TABLE IF NOT EXISTS services (
     quantity INT NOT NULL,
     total_service_price DECIMAL(20, 5) NOT NULL,
     PRIMARY KEY (financial_offer_id, user_id),
-    FOREIGN KEY (financial_offer_id) REFERENCES financial_offers(id),
+    FOREIGN KEY (financial_offer_id) REFERENCES financialOffers(financialOffer_id),
     FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+CREATE TABLE payments (
+    payment_id INT AUTO_INCREMENT PRIMARY KEY,
+    financial_offer_id INT NOT NULL,
+    payment_percentage DECIMAL(5, 2) NOT NULL,
+    payment_number INT NOT NULL,
+    FOREIGN KEY (financial_offer_id) REFERENCES financialOffers(financialOffer_id)
 );
 ";
 
