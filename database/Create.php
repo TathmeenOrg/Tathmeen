@@ -1,19 +1,22 @@
 <?php
 include('config.php');
 
-// تعيين الترميز إلى utf8mb4
+
 mysqli_set_charset($con, "utf8");
 
-// استعلامات SQL لإنشاء الجداول
+
 $sql = "
 CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     email VARCHAR(255) NOT NULL,
+    firstname VARCHAR(255) NOT NULL,
+    lastname VARCHAR(255) NOT NULL,
+    gender ENUM('male', 'female') NOT NULL,
+    age INT NOT NULL,
     role ENUM('super_admin', 'sub_admin') NOT NULL,
     phone_number VARCHAR(15) NOT NULL,
-    name VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
-    UNIQUE KEY (email)
+   security_code VARCHAR(255) NULL
 );
 
 CREATE TABLE IF NOT EXISTS financialOffers (
@@ -23,28 +26,30 @@ CREATE TABLE IF NOT EXISTS financialOffers (
     association_name VARCHAR(255) NOT NULL,
     client_address VARCHAR(255) NOT NULL,
     file_name VARCHAR(255) NOT NULL,
-    total_price DECIMAL(20, 5) NOT NULL,
+    total_price DECIMAL(20, 2) NOT NULL,
     file_download_status BOOLEAN NOT NULL DEFAULT 0,
+    file_data BLOB DEFAULT NULL, 
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
+
 
 CREATE TABLE IF NOT EXISTS statements (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    financial_offer_id INT,
-    statement_description TEXT,
-    FOREIGN KEY (financial_offer_id) REFERENCES financialOffers(financialOffer_id)
+    statement_description TEXT
 );
 
 CREATE TABLE IF NOT EXISTS services (
-    financial_offer_id INT NOT NULL,
+    financialOffer_id INT NOT NULL,
     user_id INT NOT NULL,
-    service_price DECIMAL(20, 5) NOT NULL,
+    service VARCHAR(255) NOT NULL,
+    service_price DECIMAL(20, 2) NOT NULL,
     quantity INT NOT NULL,
-    total_service_price DECIMAL(20, 5) NOT NULL,
-    PRIMARY KEY (financial_offer_id, user_id),
-    FOREIGN KEY (financial_offer_id) REFERENCES financialOffers(financialOffer_id),
+    total_service_price DECIMAL(20, 2) NOT NULL,
+    PRIMARY KEY (financialOffer_id, user_id, service),  
+    FOREIGN KEY (financialOffer_id) REFERENCES financialOffers(financialOffer_id),
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
+
 
 CREATE TABLE payments (
     payment_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -53,6 +58,7 @@ CREATE TABLE payments (
     payment_number INT NOT NULL,
     FOREIGN KEY (financial_offer_id) REFERENCES financialOffers(financialOffer_id)
 );
+
 ";
 
 
