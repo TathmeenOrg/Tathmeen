@@ -6,11 +6,16 @@ session_start();
 <html lang="ar" dir="rtl">
 
 <head>
+    <?php
+    session_start();
+    $current_page = basename($_SERVER['PHP_SELF']);
+    ?>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>نظام تثمين |  نموذج إنشاء عرض مالي   </title>
     <link rel="icon" href="assets/images/logo/tathmeen_logo.png">
 
+    <link rel="stylesheet" href="assets/vendors/iconly/bold.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/bootstrap.css">
@@ -497,7 +502,7 @@ session_start();
 
 
 
-                            <!--     <div class="tab-pane fade" role="tabpanel" id="step5" aria-labelledby="step5-tab"
+                                <!--     <div class="tab-pane fade" role="tabpanel" id="step5" aria-labelledby="step5-tab"
                                     style="margin-top: 25px;">
                                     <h3 class="text-center">القسم الخامس</h3>
 
@@ -540,8 +545,6 @@ session_start();
 
 
     <script>
-
-
         // Function to check if all required fields are filled
         function checkRequiredFields() {
             let currentTabPane = document.querySelector('.tab-pane.active');
@@ -682,12 +685,12 @@ session_start();
         togglePointerEvents(false);
 
         // Automatically activate the first tab on page load
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('step1-tab').click();
         });
 
         // Service Table Calculations
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             function calculateRowTotal(row) {
                 const rate = parseFloat(row.querySelector('.rate').value) || 0;
                 const quantity = parseFloat(row.querySelector('.quantity').value) || 0;
@@ -706,7 +709,7 @@ session_start();
                 document.getElementById('overallTotal').value = overallTotal;
             }
 
-            document.getElementById('addRow').addEventListener('click', function () {
+            document.getElementById('addRow').addEventListener('click', function() {
                 const table = document.getElementById('serviceTable').getElementsByTagName('tbody')[0];
                 const newRow = table.insertRow();
 
@@ -728,21 +731,21 @@ session_start();
                     input.addEventListener('input', () => calculateRowTotal(newRow));
                 });
 
-                newRow.querySelector('.removeRow').addEventListener('click', function () {
+                newRow.querySelector('.removeRow').addEventListener('click', function() {
                     newRow.remove();
                     calculateOverallTotal();
                 });
             });
 
             document.querySelectorAll('#serviceTable .rate, #serviceTable .quantity').forEach(input => {
-                input.addEventListener('input', function () {
+                input.addEventListener('input', function() {
                     const row = input.closest('tr');
                     calculateRowTotal(row);
                 });
             });
 
             document.querySelectorAll('#serviceTable .removeRow').forEach(button => {
-                button.addEventListener('click', function () {
+                button.addEventListener('click', function() {
                     const row = button.closest('tr');
                     row.remove();
                     calculateOverallTotal();
@@ -753,13 +756,11 @@ session_start();
         });
 
         // Automatically set the current date in the date input field
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const creationDateInput = document.getElementById('creation-date');
             const today = new Date().toISOString().split('T')[0];
             creationDateInput.value = today;
         });
-
-
     </script>
 
 
