@@ -105,16 +105,28 @@ if ($result->num_rows > 0) {
     <link rel="stylesheet" href="assets/css/app.css">
     <link rel="shortcut icon" href="assets/images/favicon.svg" type="image/x-icon">
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap" rel="stylesheet">
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <style>
+      .btn i {
+            vertical-align: middle; 
+         
+            position: relative;
+            top: 4px; 
+        }
+        .btn {
+            line-height: 1.5; 
+            align-items: center;
+        }
         .modal-title {
             color: white;
         }
 
         .table-responsive {
             max-width: 100%;
-
             margin: 0 auto 10px;
 
         }
@@ -131,7 +143,7 @@ if ($result->num_rows > 0) {
         }
 
         .table-responsive .action-column {
-            width: 60px;
+            width: 80px;
 
         }
 
@@ -584,7 +596,7 @@ if ($result->num_rows > 0) {
 
 
                                 <button class="btn btn-sm btn-primary rounded-pill next mx-2" onclick="addNewRow()">
-                                    <i class='bi bi-plus'></i> إضافة بند جديد
+                                <i class="bi bi-plus-circle" style=" margin-left: 5px; "></i>  إضافة بند جديد
                                 </button>
 
                             </div>
