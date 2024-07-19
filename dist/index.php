@@ -242,7 +242,7 @@
                             <?php if ($_SESSION['user_role'] === 'super_admin') : ?>
                                 <div class="col-6 col-lg-6 col-md-6">
                                     <div class="card">
-                                        <a href="# مروج">
+                                        <a href="createAccount.php">
                                             <div class="card-body px-3 py-4-5" id="buttonCreateUser">
                                                 <div class="row">
                                                     <div class="col-md-2">
@@ -262,7 +262,7 @@
                             <div class="col-6 col-lg-6 col-md-6">
                                 <div class="card">
                                     <div class="card-body px-3 py-4-5" id="buttonCreateOffer">
-                                        <a href="# مروج ">
+                                        <a href="financialOffersForm.php ">
                                             <div class="row">
                                                 <div class="col-md-2">
                                                     <div class="stats-icon purple">

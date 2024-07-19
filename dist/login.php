@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $password = $_POST['password'];
 
         //اخذ المستخدم من الداتابيس
-        $sql = "SELECT `id`, `email`, `role`, `phone_number`, `name`, `password` FROM `users` WHERE email = ?";
+        $sql = "SELECT `id`, `email`, `role`, `phone_number`, `firstname`, `password` FROM `users` WHERE email = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("s", $email);
         $stmt->execute();
