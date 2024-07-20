@@ -39,7 +39,7 @@
     }
 
     // جيب كل اليوزرز
-    $sql = "SELECT `id`, `name`, `email`, `role`, `phone_number` FROM `users`";
+    $sql = "SELECT `id`, `fristname`, `email`, `role`, `phone_number` FROM `users`";
     $result = $conn->query($sql);
 
     //عملية حذف المستخدم

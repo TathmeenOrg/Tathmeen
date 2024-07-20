@@ -1,6 +1,7 @@
 <?php
     include('../database/config.php');
     session_start();
+    
 ?>
 
 
@@ -390,6 +391,7 @@
     </div>
 
     <script>
+<<<<<<< Updated upstream
         document.getElementById('CreateForm').addEventListener('submit', function (event) {
             event.preventDefault();
             let valid = true;
@@ -412,6 +414,102 @@
                 valid = false;
                 firstName.classList.add('is-invalid');
                 document.getElementById('error-first-name').textContent = 'الرجاء إدخال الاسم الأول.';
+=======
+document.getElementById('editForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    let valid = true;
+
+    const firstName = document.getElementById('firstname');
+    const lastName = document.getElementById('lastname');
+    const email = document.getElementById('email');
+    const password = document.getElementById('password');
+    const role = document.getElementById('role');
+    const gender = document.getElementById('gender');
+    const age = document.getElementById('age');
+    const phone = document.getElementById('phone_number');
+
+    // Clear previous errors
+    document.querySelectorAll('.invalid-feedback').forEach(el => el.textContent = '');
+    document.querySelectorAll('.form-control, .form-select').forEach(el => el.classList.remove('is-invalid'));
+
+    // Check first name
+    if (!firstName.value.trim()) {
+        valid = false;
+        firstName.classList.add('is-invalid');
+        document.getElementById('error-first-name').textContent = 'الرجاء إدخال الاسم الأول.';
+    }
+
+    // Check last name
+    if (!lastName.value.trim()) {
+        valid = false;
+        lastName.classList.add('is-invalid');
+        document.getElementById('error-last-name').textContent = 'الرجاء إدخال الاسم الأخير.';
+    }
+
+    // Check email format
+    if (!validateEmail(email.value)) {
+        valid = false;
+        email.classList.add('is-invalid');
+        document.getElementById('error-email').textContent = 'الرجاء إدخال بريد إلكتروني صحيح.';
+    }
+
+    // Check password strength
+    if (password.value.length < 8 || !/\d/.test(password.value) || !/[A-Z]/.test(password.value) || !/[a-z]/.test(password.value)) {
+        valid = false;
+        password.classList.add('is-invalid');
+        document.getElementById('error-password').textContent = 'كلمة المرور يجب أن تحتوي على حروف كبيرة وصغيرة وأرقام وأن يكون طولها 8 أحرف على الأقل.';
+    }
+
+    // Check role selection
+    if (!role.value) {
+        valid = false;
+        role.classList.add('is-invalid');
+        document.getElementById('error-role').textContent = 'الرجاء اختيار الدور.';
+    }
+
+    // Check gender selection
+    if (!gender.value) {
+        valid = false;
+        gender.classList.add('is-invalid');
+        document.getElementById('error-gender').textContent = 'الرجاء اختيار الجنس.';
+    }
+
+    // Check age input
+    if (!age.value || age.value <= 0) {
+        valid = false;
+        age.classList.add('is-invalid');
+        document.getElementById('error-age').textContent = 'الرجاء إدخال عمر صحيح.';
+    }
+
+    // Check phone number format
+    if (!validatePhoneNumber(phone.value)) {
+        valid = false;
+        phone.classList.add('is-invalid');
+        document.getElementById('error-phone').textContent = 'الرجاء إدخال رقم جوال صحيح.';
+    }
+
+    // إضافة التحقق من عدم تكرار البريد الإلكتروني
+    if (valid) {
+        // استخدام AJAX للتحقق من عدم تكرار البريد الإلكتروني
+        $.ajax({
+            url: '../database/CheckEmail.php', // المسار إلى ملف PHP للتحقق من البريد الإلكتروني
+            type: 'POST',
+            data: { email: email.value },
+            success: function(response) {
+                if (response === 'exists') {
+                    valid = false;
+                    email.classList.add('is-invalid');
+                    document.getElementById('error-email').textContent = 'البريد الإلكتروني مستخدم بالفعل.';
+                } else {
+                    // إذا كان البريد الإلكتروني غير مستخدم، استعراض نافذة النجاح
+                    $('#successModal').modal('show');
+                    // هنا يمكنك إرسال النموذج بشكل نهائي إلى الخادم
+                    // document.getElementById('editForm').submit();
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('حدث خطأ في الطلب: ' + error);
+>>>>>>> Stashed changes
             }
 
             // Check last name
@@ -474,6 +572,7 @@
             }
 
         });
+<<<<<<< Updated upstream
 
         function validateEmail(email) {
             const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -518,6 +617,31 @@
 
 
     </script>
+
+=======
+    }
+});
+
+function validateEmail(email) {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+}
+
+function validatePhoneNumber(phone) {
+    const re = /^\d{10}$/;
+    return re.test(phone);
+}
+
+document.querySelectorAll('.form-control, .form-select').forEach(input => {
+    input.addEventListener('input', function() {
+        if (this.classList.contains('is-invalid')) {
+            this.classList.remove('is-invalid');
+            document.getElementById(`error-${this.id}`).textContent = '';
+        }
+    });
+});
+</script>
+>>>>>>> Stashed changes
 
 
 
