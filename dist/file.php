@@ -4,7 +4,7 @@ include('../database/config.php');
 session_start();
 if (isset($_POST['action']) && $_POST['action'] == 'viewedFile') {
     $_SESSION['hasViewedFile'] = true;
-    exit; // إنهاء السكربت بعد تحديث الجلسة
+    exit; 
 }
 
 // Ensure these variables are defined and sanitized
@@ -86,6 +86,17 @@ $conn->close();
 </head>
 
 <style>
+          .btn i {
+            vertical-align: middle;
+
+            position: relative;
+            top: 4px;
+        }
+
+        .btn {
+            line-height: 1.5;
+            align-items: center;
+        }
     .card-body {
         font-family: 'Cairo', serif;
         direction: rtl;
@@ -245,8 +256,8 @@ $conn->close();
                 <div class="page-title">
                     <div class="row">
                         <div class="col-12 col-md-6 order-md-1 order-last">
-                            <h3>Photo Gallery</h3>
-                            <p class="text-subtitle text-muted">An application for user to check Gallery inbox</p>
+                           
+                            <p class="text-subtitle text-muted"> </p>
                         </div>
                         <div class="col-12 col-md-6 order-md-2 order-first">
                             <nav aria-label="breadcrumb" class="breadcrumb-header float-start">
@@ -280,141 +291,136 @@ $conn->close();
                 <!-- //------------------------------------------------------- -->
 
                 <section id="financialOfferSection" class="section" style="display: none;">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="card">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body " id="financialOfferCard">
 
-
-                                <div class="card-body " id="financialOfferCard">
-
-                                    <!-- إضافة الصور -->
-                                    <div class="header-images">
-                                        <img src="assets/images/logo/awonLogo.png" alt="شعار 1" class="img1">
-                                        <img src="assets/images/logo/awon.png" alt="شعار 2" class="img2">
-                                        <img src="assets/images/logo/logo1.png" alt="شعار 3" class="img3">
-                                    </div>
-
-
-                                    <!-- Table 1: العرض المالي -->
-                                    <div class="custom-bg p-2 mb-3">
-                                        <h6>العرض المالي</h6>
-                                    </div>
-                                    <div class="table-responsive">
-                                        <table class="table table-bordered mb-0">
-                                            <tbody>
-                                                <tr>
-                                                    <th scope="row">السادة</th>
-                                                    <td>
-                                                        <?php echo $association_name; ?>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">التاريخ</th>
-                                                    <td>
-                                                        <?php echo $created_at; ?>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">عنوان العميل</th>
-                                                    <td>
-                                                        <?php echo $client_address; ?>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-
-                                    <!-- Table 2: الخدمات -->
-                                    <div class="custom-bg p-2 mb-3 mt-4">
-                                        <h6>الخدمات</h6>
-                                    </div>
-                                    <div class="table-responsive">
-                                        <table class="table table-bordered mb-0">
-                                            <thead>
-                                                <tr>
-                                                    <th>رقم البند</th>
-                                                    <th>الخدمة</th>
-                                                    <th>سعر الخدمة</th>
-                                                    <th>الكمية</th>
-                                                    <th>السعر الاجمالي</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="services_table">
-                                                <?php foreach ($services as $index => $service): ?>
-                                                <tr>
-                                                    <td>
-                                                        <?php echo $index + 1; ?>
-                                                    </td>
-                                                    <td>
-                                                        <?php echo $service['service']; ?>
-                                                    </td>
-                                                    <td>
-                                                        <?php echo $service['service_price']; ?>
-                                                    </td>
-                                                    <td>
-                                                        <?php echo $service['quantity']; ?>
-                                                    </td>
-                                                    <td>
-                                                        <?php echo $service['total_service_price']; ?>
-                                                    </td>
-                                                </tr>
-                                                <?php endforeach; ?>
-                                            </tbody>
-                                        </table>
-                                    </div>
-
-                                    <!-- Table 3: البيان -->
-                                    <div class="custom-bg p-2 mb-3 mt-4">
-                                        <h6>البيان</h6>
-                                    </div>
-                                    <div class="table-responsive">
-                                        <table class="table mb-0 no-border-table">
-                                            <thead>
-                                                <tr>
-                                                    <th></th>
-                                                    <th></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="statements_table">
-                                                <?php foreach ($statements as $statement): ?>
-                                                <tr>
-                                                    <td>
-                                                        <?php echo $statement['id']; ?>
-                                                    </td>
-                                                    <td>
-                                                        <?php echo $statement['statement_description']; ?>
-                                                    </td>
-                                                </tr>
-                                                <?php endforeach; ?>
-                                            </tbody>
-                                        </table>
-                                    </div>
-
-                                    <!-- Table 4: سياسة الدفع -->
-                                    <div class="custom-bg p-2 mb-3 mt-4">
-                                        <h6>سياسة الدفع</h6>
-                                    </div>
-                                    <div class="table-responsive">
-                                        <table class="table table-bordered mb-0">
-                                            <thead>
-                                                <tr>
-                                                    <th>رقم الدفعة</th>
-                                                    <th>نسبة الدفعة</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="payment_policy_table">
-                                                <!-- سيتم ملء البيانات هنا بواسطة JavaScript -->
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-
-
+                    <!-- إضافة الصور -->
+                    <div class="header-images">
+                        <img src="assets/images/logo/awonLogo.png" alt="شعار 1" class="img1">
+                        <img src="assets/images/logo/awon.png" alt="شعار 2" class="img2">
+                        <img src="assets/images/logo/logo1.png" alt="شعار 3" class="img3">
                     </div>
-                </section>
+
+                    <!-- Table 1: العرض المالي -->
+                    <div class="custom-bg p-2 mb-3">
+                        <h6>العرض المالي</h6>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered mb-0">
+                            <tbody>
+                                <tr>
+                                    <th scope="row">السادة</th>
+                                    <td><?php echo $association_name; ?></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">التاريخ</th>
+                                    <td><?php echo $created_at; ?></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">عنوان العميل</th>
+                                    <td><?php echo $client_address; ?></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Table 2: الخدمات -->
+                    <div class="custom-bg p-2 mb-3 mt-4">
+                        <h6>الخدمات</h6>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered mb-0">
+                            <thead>
+                                <tr>
+                                    <th>رقم البند</th>
+                                    <th>الخدمة</th>
+                                    <th>سعر الخدمة</th>
+                                    <th>الكمية</th>
+                                    <th>السعر الاجمالي</th>
+                                </tr>
+                            </thead>
+                            <tbody id="services_table">
+                                <?php foreach ($services as $index => $service): ?>
+                                    <tr>
+                                        <td><?php echo $index + 1; ?></td>
+                                        <td><?php echo $service['service']; ?></td>
+                                        <td><?php echo $service['service_price']; ?></td>
+                                        <td><?php echo $service['quantity']; ?></td>
+                                        <td><?php echo $service['total_service_price']; ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Table 3: البيان -->
+                    <div class="custom-bg p-2 mb-3 mt-4">
+                        <h6>البيان</h6>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table mb-0 no-border-table">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="statements_table">
+                                <?php foreach ($statements as $statement): ?>
+                                    <tr>
+                                        <td><?php echo $statement['id']; ?></td>
+                                        <td><?php echo $statement['statement_description']; ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Table 4: سياسة الدفع -->
+                    <div class="custom-bg p-2 mb-3 mt-4">
+                        <h6>سياسة الدفع</h6>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered mb-0">
+                            <thead>
+                                <tr>
+                                    <th>رقم الدفعة</th>
+                                    <th>نسبة الدفعة</th>
+                                </tr>
+                            </thead>
+                            <tbody id="payment_policy_table">
+                                <!-- سيتم ملء البيانات هنا بواسطة JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="d-flex justify-content-center">
+            
+        <?php
+        include('../database/config.php');
+
+        $stmt = $conn->prepare("SELECT financialOffer_id FROM financialOffers WHERE financialOffer_id = ?");
+        $stmt->bind_param('i', $financialOffer_id);
+        $stmt->execute();
+        $stmt->store_result();
+
+        if ($stmt->num_rows > 0) {
+            echo "<a href='../database/fileDB2.php?financialOffer_id=" . urlencode($financialOffer_id) . "' class='btn btn-primary'>تنزيل الملف <i class='bi bi-download'></i></a>";
+        }
+        
+    
+
+        $stmt->close();
+        $conn->close();
+        ?>
+           </div>
+    </div>
+</section>
 
             </div>
 

@@ -20,11 +20,22 @@
     <link rel="stylesheet" href="assets/css/app.css">
     <link rel="shortcut icon" href="assets/images/favicon.svg" type="image/x-icon">
 
-    
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap" rel="stylesheet">
 
     <style>
+              .btn i {
+            vertical-align: middle;
+
+            position: relative;
+            top: 4px;
+        }
+
+        .btn {
+            line-height: 1.5;
+            align-items: center;
+        }
         .dataTable-cell,
         th {
             text-align: center;
@@ -119,7 +130,7 @@
 
 
 
-    
+
         <div id="main" style="font-family: 'Cairo', sans-serif;">
             <header class="mb-3">
                 <a href="#" class="burger-btn d-block d-xl-none">
@@ -166,9 +177,9 @@
                                 <tbody style="text-align: center;">
                                     <?php
                     include('../database/config.php');
-             
 
-                    
+
+
                     if (!isset($_SESSION['user_id'])) {
                         header("Location: auth-login.php");
                         exit();
@@ -178,25 +189,25 @@
                     $userId = $_SESSION['user_id'];
 
                     if ($userRole === 'super_admin') {
-                      
+
                         $sql = "SELECT financialOffer_id, file_name, created_at FROM financialOffers";
                     } else {
-                     
+
                         $sql = "SELECT financialOffer_id, file_name, created_at FROM financialOffers WHERE user_id = ?";
                     }
 
-             
+
                     $stmt = $conn->prepare($sql);
 
                     if ($userRole !== 'super_admin') {
-                     
+
                         $stmt->bind_param("i", $userId);
                     }
 
                     $stmt->execute();
                     $result = $stmt->get_result();
 
-             
+
                     if ($result->num_rows > 0) {
                         while ($row = $result->fetch_assoc()) {
                             echo "<tr>";
@@ -213,7 +224,7 @@
                         echo "<tr><td colspan='3'>لا توجد بيانات لعرضها.</td></tr>";
                     }
 
-                 
+
                     $stmt->close();
                     $conn->close();
                     ?>
@@ -237,39 +248,40 @@
 
 
         <script>
-            function downloadFile(id, button) {
-                fetch('../database/fileDB2.php?financialOffer_id=' + id)
-                    .then(response => {
-                        if (response.ok) {
-                            return response.blob();
-                        }
-                        throw new Error('Network response was not ok.');
-                    })
-                    .then(blob => {
-                        let url = window.URL.createObjectURL(blob);
-                        let a = document.createElement('a');
-                        a.style.display = 'none';
-                        a.href = url;
-                        a.download = 'file_' + id;
-                        document.body.appendChild(a);
-                        a.click();
-                        window.URL.revokeObjectURL(url);
-
-
-
-                        return fetch('../database/updateDownloadStatus.php', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({ financialOffer_id: id })
-                        });
-                    })
-                    .catch(error => {
-                        console.error('There was a problem with the fetch operation:', error);
-                    });
+function downloadFile(id, button) {
+    fetch('../database/fileDB2.php?financialOffer_id=' + id)
+        .then(response => {
+            if (response.ok) {
+                return response.blob();
             }
-        </script>
+            throw new Error('Network response was not ok.');
+        })
+        .then(blob => {
+            let url = window.URL.createObjectURL(blob);
+            let a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = 'file_' + id + '.pdf'; // تأكد من إضافة .pdf
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+
+            return fetch('../database/updateDownloadStatus.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ financialOffer_id: id })
+            });
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+        });
+}
+</script>
+
+
+
         <script>
 
             let table1 = document.querySelector('#table1');

@@ -19,9 +19,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         $fileName = $_FILES['pdf']['name'];
-        $fileData = file_get_contents($_FILES['pdf']['tmp_name']); 
+        $fileData = file_get_contents($_FILES['pdf']['tmp_name']);
 
-       
         $stmt = $conn->prepare("UPDATE financialOffers SET file_name = ?, file_data = ? WHERE financialOffer_id = ? AND user_id = ?");
         $stmt->bind_param('ssii', $fileName, $fileData, $financialOffer_id, $user_id);
 

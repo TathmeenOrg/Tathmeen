@@ -2,7 +2,7 @@
 include('config.php');
 
 
-mysqli_set_charset($con, "utf8");
+mysqli_set_charset($conn, "utf8");
 
 
 $sql = "
@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS financialOffers (
     file_name VARCHAR(255) NOT NULL,
     total_price DECIMAL(20, 2) NOT NULL,
     file_download_status BOOLEAN NOT NULL DEFAULT 0,
-    file_data BLOB DEFAULT NULL, 
+    file_data LONGBLOB DEFAULT NULL, 
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
@@ -62,12 +62,12 @@ CREATE TABLE payments (
 ";
 
 
-if (mysqli_multi_query($con, $sql)) {
+if (mysqli_multi_query($conn, $sql)) {
     echo "Tables created successfully\n";
 } else {
-    echo "Error: " . mysqli_error($con);
+    echo "Error: " . mysqli_error($conn);
 }
 
 
-mysqli_close($con);
+mysqli_close($conn);
 ?>
