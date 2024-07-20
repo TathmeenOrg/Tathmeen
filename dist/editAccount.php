@@ -201,13 +201,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
                                             <a href="account_management.php" class="btn btn-danger ms-3">إلغاء</a>
                                         </div>
 
-
                                     </div>
-
-
-
-
-
 
                                     <div class="card-body">
                                         <form id="editForm" novalidate method="POST" action="../database/update.php">

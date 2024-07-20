@@ -354,7 +354,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             const tableWidth = document.querySelector('.table-responsive').clientWidth;
 
             messageContainer.innerHTML = `
-            <div class="alert alert-${type} alert-dismissible show fade" style="width: ${tableWidth}px;">
+            <div class="alert alert-${type} alert-dismissible show fade" style="width: 680px;">
                 ${message}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>`;
