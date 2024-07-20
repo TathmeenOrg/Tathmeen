@@ -1,87 +1,50 @@
 <?php
 include('../database/config.php');
-
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+session_start();
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $action = $_POST['action'];
 
-    if ($action === 'delete') {
-        $id = $_POST['id'];
-        $sql = "DELETE FROM statements WHERE id = ?";
-        $stmt = $con->prepare($sql);
-        $stmt->bind_param("i", $id);
+    switch ($action) {
+        case 'delete':
+            $id = $_POST['id'];
+            $sql = "DELETE FROM statements WHERE id=?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("i", $id);
+            if ($stmt->execute()) {
+                echo json_encode(['success' => true]);
+            } else {
+                echo json_encode(['success' => false]);
+            }
+            break;
 
-        if ($stmt->execute()) {
-           
-            $updateSql = "SET @num := 0; UPDATE statements SET id = @num := (@num+1); ALTER TABLE statements AUTO_INCREMENT = 1;";
-            $con->multi_query($updateSql);
-            $con->next_result(); 
-            echo json_encode(['success' => true]);
-        } else {
-            echo json_encode(['success' => false]);
-        }
-        $stmt->close();
-        exit;
-    } elseif ($action === 'edit') {
-        $id = $_POST['id'];
-        $description = $_POST['description'];
+        case 'edit':
+            $id = $_POST['id'];
+            $description = $_POST['description'];
+            $sql = "UPDATE statements SET statement_description=? WHERE id=?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("si", $description, $id);
+            if ($stmt->execute()) {
+                echo json_encode(['success' => true]);
+            } else {
+                echo json_encode(['success' => false]);
+            }
+            break;
 
-  
-        $sqlCheck = "SELECT statement_description FROM statements WHERE id = ?";
-        $stmtCheck = $con->prepare($sqlCheck);
-        $stmtCheck->bind_param("i", $id);
-        $stmtCheck->execute();
-        $stmtCheck->bind_result($current_description);
-        $stmtCheck->fetch();
-        $stmtCheck->close();
-
-        
-        if ($description === $current_description) {
-            echo json_encode(['success' => true]);
-            exit;
-        }
-
-        $sql = "UPDATE statements SET statement_description = ? WHERE id = ?";
-        $stmt = $con->prepare($sql);
-        $stmt->bind_param("si", $description, $id);
-
-        if ($stmt->execute()) {
-            echo json_encode(['success' => true]);
-        } else {
-            echo json_encode(['success' => false]);
-        }
-        $stmt->close();
-        exit;
-    } elseif ($action === 'add') {
-        $description = $_POST['description'];
-        $sql = "INSERT INTO statements (statement_description) VALUES (?)";
-        $stmt = $con->prepare($sql);
-        $stmt->bind_param("s", $description);
-
-        if ($stmt->execute()) {
-          
-            $updateSql = "SET @num := 0; UPDATE statements SET id = @num := (@num+1); ALTER TABLE statements AUTO_INCREMENT = 1;";
-            $con->multi_query($updateSql);
-            $con->next_result(); 
-            echo json_encode(['success' => true]);
-        } else {
-            echo json_encode(['success' => false]);
-        }
-        $stmt->close();
-        exit;
+        case 'add':
+            $description = $_POST['description'];
+            $sql = "INSERT INTO statements (statement_description) VALUES (?)";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("s", $description);
+            if ($stmt->execute()) {
+                echo json_encode(['success' => true]);
+            } else {
+                echo json_encode(['success' => false]);
+            }
+            break;
     }
-}
-
-
-$sql = "SELECT id, statement_description FROM statements";
-$result = $con->query($sql);
-
-
-$statements = [];
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $statements[] = $row;
-    }
+    $stmt->close();
+    $conn->close();
+    exit();
 }
 ?>
 
@@ -92,8 +55,8 @@ if ($result->num_rows > 0) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إدارة بيان الشركة </title>
-
+    <title>نظام تثمين | إدارة بيان الشركة</title>
+    <link rel="icon" href="assets/images/logo/tathmeen_logo.png">
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
@@ -111,16 +74,18 @@ if ($result->num_rows > 0) {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <style>
-      .btn i {
-            vertical-align: middle; 
-         
+        .btn i {
+            vertical-align: middle;
+
             position: relative;
-            top: 4px; 
+            top: 4px;
         }
+
         .btn {
-            line-height: 1.5; 
+            line-height: 1.5;
             align-items: center;
         }
+
         .modal-title {
             color: white;
         }
@@ -166,12 +131,15 @@ if ($result->num_rows > 0) {
 <body>
 
     <div id="app">
+
+
+
         <div id="sidebar" class="active">
             <div class="sidebar-wrapper active">
                 <div class="sidebar-header">
                     <div class="d-flex justify-content-between">
                         <div class="logo">
-                            <a href="index.html"><img src="assets/images/logo/logo.png" alt="Logo" srcset=""></a>
+                            <a href="index.php"><img src="assets/images/logo/logo.png" alt="Logo" srcset=""></a>
                         </div>
                         <div class="toggler">
                             <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
@@ -180,349 +148,69 @@ if ($result->num_rows > 0) {
                 </div>
                 <div class="sidebar-menu">
                     <ul class="menu">
-                        <li class="sidebar-title">Menu</li>
+                        <li class="sidebar-title">القائمة</li>
 
-                        <li class="sidebar-item  ">
-                            <a href="index.html" class='sidebar-link'>
+                        <li class="sidebar-item <?= $current_page == 'index.php' ? 'active' : '' ?>">
+                            <a href="index.php" class='sidebar-link'>
                                 <i class="bi bi-grid-fill"></i>
-                                <span>Dashboard</span>
+                                <span>الصفحة الرئيسية</span>
                             </a>
                         </li>
 
-                        <li class="sidebar-item  has-sub">
-                            <a href="#" class='sidebar-link'>
-                                <i class="bi bi-stack"></i>
-                                <span>Components</span>
+                        <li class="sidebar-title">قسم الإدارات</li>
+                        <?php if ($_SESSION['user_role'] === 'super_admin') : ?>
+                        <li id='account_management' class='sidebar-item <?= $current_page == ' account_management.php'
+                            ? 'active' : '' ?>'>
+                            <a href='account_management.php' class='sidebar-link'>
+                                <i class='bi bi-person-square'></i>
+                                <span>إدارة الحسابات</span>
                             </a>
-                            <ul class="submenu ">
-                                <li class="submenu-item ">
-                                    <a href="component-alert.html">Alert</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="component-badge.html">Badge</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="component-breadcrumb.html">Breadcrumb</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="component-button.html">Button</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="component-card.html">Card</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="component-carousel.html">Carousel</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="component-dropdown.html">Dropdown</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="component-list-group.html">List Group</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="component-modal.html">Modal</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="component-navs.html">Navs</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="component-pagination.html">Pagination</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="component-progress.html">Progress</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="component-spinner.html">Spinner</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="component-tooltip.html">Tooltip</a>
-                                </li>
-                            </ul>
                         </li>
+                        <?php endif; ?>
 
-                        <li class="sidebar-item  has-sub">
-                            <a href="#" class='sidebar-link'>
-                                <i class="bi bi-collection-fill"></i>
-                                <span>Extra Components</span>
-                            </a>
-                            <ul class="submenu ">
-                                <li class="submenu-item ">
-                                    <a href="extra-component-avatar.html">Avatar</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="extra-component-sweetalert.html">Sweet Alert</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="extra-component-toastify.html">Toastify</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="extra-component-rating.html">Rating</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="extra-component-divider.html">Divider</a>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li class="sidebar-item  has-sub">
-                            <a href="#" class='sidebar-link'>
-                                <i class="bi bi-grid-1x2-fill"></i>
-                                <span>Layouts</span>
-                            </a>
-                            <ul class="submenu ">
-                                <li class="submenu-item ">
-                                    <a href="layout-default.html">Default Layout</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="layout-vertical-1-column.html">1 Column</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="layout-vertical-navbar.html">Vertical with Navbar</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="layout-horizontal.html">Horizontal Menu</a>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li class="sidebar-title">Forms &amp; Tables</li>
-
-                        <li class="sidebar-item  has-sub">
-                            <a href="#" class='sidebar-link'>
-                                <i class="bi bi-hexagon-fill"></i>
-                                <span>Form Elements</span>
-                            </a>
-                            <ul class="submenu ">
-                                <li class="submenu-item ">
-                                    <a href="form-element-input.html">Input</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="form-element-input-group.html">Input Group</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="form-element-select.html">Select</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="form-element-radio.html">Radio</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="form-element-checkbox.html">Checkbox</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="form-element-textarea.html">Textarea</a>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li class="sidebar-item  ">
-                            <a href="form-layout.html" class='sidebar-link'>
-                                <i class="bi bi-file-earmark-medical-fill"></i>
-                                <span>Form Layout</span>
+                        <li
+                            class="sidebar-item <?= $current_page == 'financial_offers_management.php' ? 'active' : '' ?>">
+                            <a href="financial_offers_management.php" class='sidebar-link'>
+                                <i class="bi bi-briefcase-fill"></i>
+                                <span>إدارة العروض المالية</span>
                             </a>
                         </li>
 
-                        <li class="sidebar-item active has-sub">
-                            <a href="#" class='sidebar-link'>
-                                <i class="bi bi-pen-fill"></i>
-                                <span>Form Editor</span>
-                            </a>
-                            <ul class="submenu active">
-                                <li class="submenu-item active">
-                                    <a href="form-editor-quill.html">Quill</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="form-editor-ckeditor.html">CKEditor</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="form-editor-summernote.html">Summernote</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="form-editor-tinymce.html">TinyMCE</a>
-                                </li>
-                            </ul>
-                        </li>
+                        <li class="sidebar-title">قسم الملفات</li>
 
-                        <li class="sidebar-item  ">
-                            <a href="table.html" class='sidebar-link'>
-                                <i class="bi bi-grid-1x2-fill"></i>
-                                <span>Table</span>
-                            </a>
-                        </li>
-
-                        <li class="sidebar-item  ">
-                            <a href="table-datatable.html" class='sidebar-link'>
-                                <i class="bi bi-file-earmark-spreadsheet-fill"></i>
-                                <span>Datatable</span>
-                            </a>
-                        </li>
-
-                        <li class="sidebar-title">Extra UI</li>
-
-                        <li class="sidebar-item  has-sub">
-                            <a href="#" class='sidebar-link'>
-                                <i class="bi bi-pentagon-fill"></i>
-                                <span>Widgets</span>
-                            </a>
-                            <ul class="submenu ">
-                                <li class="submenu-item ">
-                                    <a href="ui-widgets-chatbox.html">Chatbox</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="ui-widgets-pricing.html">Pricing</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="ui-widgets-todolist.html">To-do List</a>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li class="sidebar-item  has-sub">
-                            <a href="#" class='sidebar-link'>
-                                <i class="bi bi-egg-fill"></i>
-                                <span>Icons</span>
-                            </a>
-                            <ul class="submenu ">
-                                <li class="submenu-item ">
-                                    <a href="ui-icons-bootstrap-icons.html">Bootstrap Icons </a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="ui-icons-fontawesome.html">Fontawesome</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="ui-icons-dripicons.html">Dripicons</a>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li class="sidebar-item  has-sub">
-                            <a href="#" class='sidebar-link'>
-                                <i class="bi bi-bar-chart-fill"></i>
-                                <span>Charts</span>
-                            </a>
-                            <ul class="submenu ">
-                                <li class="submenu-item ">
-                                    <a href="ui-chart-chartjs.html">ChartJS</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="ui-chart-apexcharts.html">Apexcharts</a>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li class="sidebar-item  ">
-                            <a href="ui-file-uploader.html" class='sidebar-link'>
+                        <li class="sidebar-item <?= $current_page == 'fileview.php' ? 'active' : '' ?>">
+                            <a href="fileview.php" class='sidebar-link'>
                                 <i class="bi bi-cloud-arrow-up-fill"></i>
-                                <span>File Uploader</span>
+                                <span>عرض الملفات</span>
                             </a>
                         </li>
 
-                        <li class="sidebar-item  has-sub">
-                            <a href="#" class='sidebar-link'>
-                                <i class="bi bi-map-fill"></i>
-                                <span>Maps</span>
-                            </a>
-                            <ul class="submenu ">
-                                <li class="submenu-item ">
-                                    <a href="ui-map-google-map.html">Google Map</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="ui-map-jsvectormap.html">JS Vector Map</a>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li class="sidebar-title">Pages</li>
-
-                        <li class="sidebar-item  ">
-                            <a href="application-email.html" class='sidebar-link'>
-                                <i class="bi bi-envelope-fill"></i>
-                                <span>Email Application</span>
+                        <?php if ($_SESSION['user_role'] === 'super_admin') : ?>
+                        <li class='sidebar-title'>قسم إدارة الشركة</li>
+                        <li class='sidebar-item <?= $current_page == ' company-information-form.php' ? 'active' : '' ?>
+                            '>
+                            <a href='company-information-form.php' class='sidebar-link'>
+                                <i class='bi bi-info-circle-fill'></i>
+                                <span>إدارة معلومات الشركة</span>
                             </a>
                         </li>
-
-                        <li class="sidebar-item  ">
-                            <a href="application-chat.html" class='sidebar-link'>
-                                <i class="bi bi-chat-dots-fill"></i>
-                                <span>Chat Application</span>
+                        <li class='sidebar-item <?= $current_page == ' statementForm.php' ? 'active' : '' ?>'>
+                            <a href='statementForm.php' class='sidebar-link'>
+                                <i class='bi bi-file-earmark-spreadsheet-fill'></i>
+                                <span>إدارة بيان العروض المالية</span>
                             </a>
                         </li>
+                        <?php endif; ?>
 
-                        <li class="sidebar-item  ">
-                            <a href="application-gallery.html" class='sidebar-link'>
-                                <i class="bi bi-image-fill"></i>
-                                <span>Photo Gallery</span>
-                            </a>
-                        </li>
-
-                        <li class="sidebar-item  ">
-                            <a href="application-checkout.html" class='sidebar-link'>
-                                <i class="bi bi-basket-fill"></i>
-                                <span>Checkout Page</span>
-                            </a>
-                        </li>
-
-                        <li class="sidebar-item  has-sub">
-                            <a href="#" class='sidebar-link'>
-                                <i class="bi bi-person-badge-fill"></i>
-                                <span>Authentication</span>
-                            </a>
-                            <ul class="submenu ">
-                                <li class="submenu-item ">
-                                    <a href="auth-login.html">Login</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="auth-register.html">Register</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="auth-forgot-password.html">Forgot Password</a>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li class="sidebar-item  has-sub">
-                            <a href="#" class='sidebar-link'>
-                                <i class="bi bi-x-octagon-fill"></i>
-                                <span>Errors</span>
-                            </a>
-                            <ul class="submenu ">
-                                <li class="submenu-item ">
-                                    <a href="error-403.html">403</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="error-404.html">404</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="error-500.html">500</a>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li class="sidebar-title">Raise Support</li>
-
-                        <li class="sidebar-item  ">
-                            <a href="https://zuramai.github.io/mazer/docs" class='sidebar-link'>
-                                <i class="bi bi-life-preserver"></i>
-                                <span>Documentation</span>
-                            </a>
-                        </li>
-
-                        <li class="sidebar-item  ">
-                            <a href="https://github.com/zuramai/mazer/blob/main/CONTRIBUTING.md" class='sidebar-link'>
-                                <i class="bi bi-puzzle"></i>
-                                <span>Contribute</span>
-                            </a>
-                        </li>
-
-                        <li class="sidebar-item  ">
-                            <a href="https://github.com/zuramai/mazer#donate" class='sidebar-link'>
-                                <i class="bi bi-cash"></i>
-                                <span>Donate</span>
+                        <li class="sidebar-item" style="margin-top: 80px;">
+                            <a href="#" class='sidebar-link' data-bs-toggle="modal" data-bs-target="#logoutModal">
+                                <i class="iconly-boldLogout" style="color: #d63384;"></i>
+                                <span style='color: #d63384;'>تسجيل خروج</span>
                             </a>
                         </li>
 
                     </ul>
                 </div>
-                <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>
             </div>
         </div>
         <div id="main" style="font-family: 'Cairo', sans-serif;">
@@ -551,11 +239,11 @@ if ($result->num_rows > 0) {
                     </div>
                 </div>
 
+                <!-- HTML Structure -->
                 <section class="section">
                     <div class="container">
                         <div class="row justify-content-center">
                             <div class="col-lg-10">
-
                                 <div id="message" class="mt-3"></div>
                                 <div class="table-responsive">
                                     <table class="table table-striped mb-0">
@@ -570,7 +258,7 @@ if ($result->num_rows > 0) {
                                             <?php
                             include('../database/config.php');
                             $sql = "SELECT id, statement_description FROM statements ORDER BY id ASC";
-                            $result = $con->query($sql);
+                            $result = $conn->query($sql);
 
                             if ($result->num_rows > 0) {
                                 while ($row = $result->fetch_assoc()) {
@@ -593,17 +281,13 @@ if ($result->num_rows > 0) {
                                     </table>
                                 </div>
                                 <br>
-
-
                                 <button class="btn btn-sm btn-primary rounded-pill next mx-2" onclick="addNewRow()">
-                                <i class="bi bi-plus-circle" style=" margin-left: 5px; "></i>  إضافة بند جديد
+                                    <i class="bi bi-plus-circle" style=" margin-left: 5px; "></i> إضافة بند جديد
                                 </button>
-
                             </div>
                         </div>
                     </div>
                 </section>
-
 
 
             </div>
@@ -630,7 +314,8 @@ if ($result->num_rows > 0) {
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header" style="background: #DF0500">
-                        <h5 class="modal-title" id="deleteModalLabel" style="width:50% font-family: 'Cairo', sans-serif;"> تأكيد الحذف </h5>
+                        <h5 class="modal-title" id="deleteModalLabel"
+                            style="width:50% font-family: 'Cairo', sans-serif;"> تأكيد الحذف </h5>
 
                     </div>
                     <div class="modal-body" style="font-family: 'Cairo', sans-serif;">
@@ -646,7 +331,7 @@ if ($result->num_rows > 0) {
             </div>
         </div>
 
-   
+
 
 
 
@@ -660,6 +345,7 @@ if ($result->num_rows > 0) {
     <script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
     <script src="assets/js/bootstrap.bundle.min.js"></script>
     <script src="assets/js/main.js"></script>
+    <!-- JavaScript Code -->
     <script>
         let deleteId = null;
 
@@ -668,12 +354,11 @@ if ($result->num_rows > 0) {
             const tableWidth = document.querySelector('.table-responsive').clientWidth;
 
             messageContainer.innerHTML = `
-        <div class="alert alert-${type} alert-dismissible show fade" style="width: 685px;">
-            ${message}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div> `;
+            <div class="alert alert-${type} alert-dismissible show fade" style="width: ${tableWidth}px;">
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>`;
         }
-
 
         function showDeleteModal(id) {
             deleteId = id;
@@ -701,6 +386,10 @@ if ($result->num_rows > 0) {
                     } else {
                         showAlert('حدث خطأ أثناء الحذف', 'warning');
                     }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showAlert('حدث خطأ غير متوقع', 'danger');
                 });
         }
 
@@ -748,6 +437,10 @@ if ($result->num_rows > 0) {
                     } else {
                         showAlert('حدث خطأ أثناء التعديل', 'warning');
                     }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showAlert('حدث خطأ غير متوقع', 'danger');
                 });
         }
 
@@ -805,10 +498,12 @@ if ($result->num_rows > 0) {
                     } else {
                         showAlert('حدث خطأ أثناء الإضافة', 'warning');
                     }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showAlert('حدث خطأ غير متوقع', 'danger');
                 });
         }
-
-
     </script>
 
 </body>
