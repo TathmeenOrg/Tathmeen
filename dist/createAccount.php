@@ -18,6 +18,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/bootstrap.css">
 
+    
+    <link rel="stylesheet" href="assets/vendors/iconly/bold.css">
 
     <link rel="stylesheet" href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
     <link rel="stylesheet" href="assets/vendors/bootstrap-icons/bootstrap-icons.css">
@@ -142,7 +144,7 @@
                         <div class="col-12 col-md-6 order-md-2 order-first">
                             <nav aria-label="breadcrumb" class="breadcrumb-header float-start">
                                 <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="index.html">الصفحة الرئيسة</a></li>
+                                    <li class="breadcrumb-item"><a href="index.php">الصفحة الرئيسة</a></li>
                                     <li class="breadcrumb-item active" aria-current="page">إنشاء حساب جديد</li>
                                 </ol>
                             </nav>
@@ -375,147 +377,191 @@
             </div>
 
 
+            <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title" id="logoutModalLabel">تأكيد تسجيل الخروج</h5>
 
-            <footer>
-                <div class="footer clearfix mb-0 text-muted">
-                    <div class="float-start">
-                        <p>2021 &copy; Mazer</p>
-                    </div>
-                    <div class="float-end">
-                        <p>Crafted with <span class="text-danger"><i class="bi bi-heart hig"></i></span> by <a
-                                href="http://ahmadsaugi.com">A. Saugi</a></p>
-                    </div>
                 </div>
-            </footer>
+                <div class="modal-body">
+                    هل أنت متأكد من أنك تريد تسجيل الخروج؟
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                    <a href="logout.php" class="btn btn-danger">تسجيل الخروج</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="footer clearfix mb-0 text-muted">
+            <div class="float-start">
+                <p>2021 &copy; Mazer</p>
+            </div>
+            <div class="float-end">
+                <p>Crafted with <span class="text-danger"><i class="bi bi-heart"></i></span> by <a
+                        href="http://ahmadsaugi.com">A. Saugi</a></p>
+            </div>
+        </div>
+    </footer>
         </div>
     </div>
 
     <script>
-        document.getElementById('CreateForm').addEventListener('submit', function (event) {
-            event.preventDefault();
-            let valid = true;
+document.getElementById('CreateForm').addEventListener('submit', function (event) {
+    event.preventDefault();
+    let valid = true;
 
-            const firstName = document.getElementById('firstname');
-            const lastName = document.getElementById('lastname');
-            const email = document.getElementById('email');
-            const password = document.getElementById('password');
-            const role = document.getElementById('role');
-            const gender = document.getElementById('gender');
-            const age = document.getElementById('age');
-            const phone = document.getElementById('phone_number');
+    const firstName = document.getElementById('firstname');
+    const lastName = document.getElementById('lastname');
+    const email = document.getElementById('email');
+    const password = document.getElementById('password');
+    const role = document.getElementById('role');
+    const gender = document.getElementById('gender');
+    const age = document.getElementById('age');
+    const phone = document.getElementById('phone_number');
 
-            // Clear previous errors
-            document.querySelectorAll('.invalid-feedback').forEach(el => el.textContent = '');
-            document.querySelectorAll('.form-control, .form-select').forEach(el => el.classList.remove('is-invalid'));
+    // Clear previous errors
+    document.querySelectorAll('.invalid-feedback').forEach(el => el.textContent = '');
+    document.querySelectorAll('.form-control, .form-select').forEach(el => el.classList.remove('is-invalid'));
 
-            // Check first name
-            if (!firstName.value.trim()) {
-                valid = false;
-                firstName.classList.add('is-invalid');
-                document.getElementById('error-first-name').textContent = 'الرجاء إدخال الاسم الأول.';
-            }
+    // Check first name
+    if (!firstName.value.trim()) {
+        valid = false;
+        firstName.classList.add('is-invalid');
+        document.getElementById('error-first-name').textContent = 'الرجاء إدخال الاسم الأول.';
+    }
 
-            // Check last name
-            if (!lastName.value.trim()) {
-                valid = false;
-                lastName.classList.add('is-invalid');
-                document.getElementById('error-last-name').textContent = 'الرجاء إدخال الاسم الأخير.';
-            }
+    // Check last name
+    if (!lastName.value.trim()) {
+        valid = false;
+        lastName.classList.add('is-invalid');
+        document.getElementById('error-last-name').textContent = 'الرجاء إدخال الاسم الأخير.';
+    }
 
-            // Check email format
-            if (!validateEmail(email.value)) {
+    // Check email format
+    if (!validateEmail(email.value)) {
+        valid = false;
+        email.classList.add('is-invalid');
+        document.getElementById('error-email').textContent = 'الرجاء إدخال بريد إلكتروني صحيح.';
+    } else {
+        // Check email uniqueness using AJAX
+        checkEmailAvailability(email.value, function (isUnique) {
+            if (!isUnique) {
                 valid = false;
                 email.classList.add('is-invalid');
-                document.getElementById('error-email').textContent = 'الرجاء إدخال بريد إلكتروني صحيح.';
-            } else {
-                // Check email uniqueness using AJAX
-                checkEmailAvailability(email.value, function (isUnique) {
-                    if (!isUnique) {
-                        valid = false;
-                        email.classList.add('is-invalid');
-                        document.getElementById('error-email').textContent = 'البريد الإلكتروني مسجل بالفعل.';
-                    }
-                    showSuccessModalIfValid(valid);
-                });
+                document.getElementById('error-email').textContent = 'البريد الإلكتروني مسجل بالفعل.';
             }
-
-            // Check password
-            if (password.value.length < 8 || !/\d/.test(password.value) || !/[A-Z]/.test(password.value) || !/[a-z]/.test(password.value)) {
-                valid = false;
-                password.classList.add('is-invalid');
-                document.getElementById('error-password').textContent = 'كلمة المرور يجب أن تحتوي على حروف كبيرة وصغيرة وأرقام وأن يكون طولها 8 أحرف على الأقل.';
+            // Only submit the form if all validations are passed
+            if (valid) {
+                submitForm();
             }
-
-            // Check role
-            if (!role.value) {
-                valid = false;
-                role.classList.add('is-invalid');
-                document.getElementById('error-role').textContent = 'الرجاء اختيار الدور.';
-            }
-
-            // Check gender
-            if (!gender.value) {
-                valid = false;
-                gender.classList.add('is-invalid');
-                document.getElementById('error-gender').textContent = 'الرجاء اختيار الجنس.';
-            }
-
-            // Check age
-            if (!age.value || age.value <= 0) {
-                valid = false;
-                age.classList.add('is-invalid');
-                document.getElementById('error-age').textContent = 'الرجاء إدخال عمر صحيح.';
-            }
-
-            // Check phone
-            if (!validatePhoneNumber(phone.value)) {
-                valid = false;
-                phone.classList.add('is-invalid');
-                document.getElementById('error-phone').textContent = 'الرجاء إدخال رقم جوال صحيح.';
-            }
-
         });
+    }
 
-        function validateEmail(email) {
-            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return re.test(email);
-        }
+    // Check password
+    if (password.value.length < 8 || !/\d/.test(password.value) || !/[A-Z]/.test(password.value) || !/[a-z]/.test(password.value)) {
+        valid = false;
+        password.classList.add('is-invalid');
+        document.getElementById('error-password').textContent = 'كلمة المرور يجب أن تحتوي على حروف كبيرة وصغيرة وأرقام وأن يكون طولها 8 أحرف على الأقل.';
+    }
 
-        function validatePhoneNumber(phone) {
-            const re = /^\d{10}$/;
-            return re.test(phone);
-        }
+    // Check role
+    if (!role.value) {
+        valid = false;
+        role.classList.add('is-invalid');
+        document.getElementById('error-role').textContent = 'الرجاء اختيار الدور.';
+    }
 
-        function checkEmailAvailability(email, callback) {
-            const xhr = new XMLHttpRequest();
-            xhr.open('POST', '../database/checkEmail.php', true);
-            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-            xhr.onload = function () {
-                if (xhr.status === 200) {
-                    const response = JSON.parse(xhr.responseText);
-                    callback(!response.exists);
+    // Check gender
+    if (!gender.value) {
+        valid = false;
+        gender.classList.add('is-invalid');
+        document.getElementById('error-gender').textContent = 'الرجاء اختيار الجنس.';
+    }
+
+    // Check age
+    if (!age.value || age.value <= 0) {
+        valid = false;
+        age.classList.add('is-invalid');
+        document.getElementById('error-age').textContent = 'الرجاء إدخال عمر صحيح.';
+    }
+
+    // Check phone
+    if (!validatePhoneNumber(phone.value)) {
+        valid = false;
+        phone.classList.add('is-invalid');
+        document.getElementById('error-phone').textContent = 'الرجاء إدخال رقم جوال صحيح.';
+    }
+
+    // Only show success modal if all validations are passed
+    function submitForm() {
+        const formData = new FormData(document.getElementById('CreateForm'));
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', '../database/CreateAccountDB.php', true);
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                const response = JSON.parse(xhr.responseText);
+                if (response.success) {
+                    showSuccessModal();
                 } else {
-                    console.error('Error checking email availability: ' + xhr.statusText);
+                    console.error('Error: ' + response.error);
+                }
+            } else {
+                console.error('Error: ' + xhr.statusText);
+            }
+        };
+        xhr.send(formData);
+    }
+
+    function validateEmail(email) {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(email);
+    }
+
+    function validatePhoneNumber(phone) {
+        const re = /^\d{10}$/;
+        return re.test(phone);
+    }
+
+    function checkEmailAvailability(email, callback) {
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', '../database/checkEmail.php', true);
+        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                const response = xhr.responseText.trim();
+                // Try to parse the response as JSON
+                try {
+                    const jsonResponse = JSON.parse(response);
+                    callback(!jsonResponse.exists);
+                } catch (e) {
+                    console.error('Error parsing JSON response: ', e);
                     callback(false);
                 }
-            };
-            xhr.send('email=' + encodeURIComponent(email));
-        }
-
-        function showSuccessModalIfValid(valid) {
-            if (valid) {
-                $('#successModal').modal('show');
+            } else {
+                console.error('Error checking email availability: ' + xhr.statusText);
+                callback(false);
             }
-        }
+        };
+        xhr.send('email=' + encodeURIComponent(email));
+    }
 
-        document.querySelectorAll('.form-control, .form-select').forEach(input => {
-            input.addEventListener('input', function () {
-                if (this.classList.contains('is-invalid')) {
-                    this.classList.remove('is-invalid');
-                    document.getElementById(`error-${this.id}`).textContent = '';
-                }
-            });
+    function showSuccessModal() {
+        $('#successModal').modal('show');
+    }
+
+    document.querySelectorAll('.form-control, .form-select').forEach(input => {
+        input.addEventListener('input', function () {
+            if (this.classList.contains('is-invalid')) {
+                this.classList.remove('is-invalid');
+                document.getElementById(`error-${this.id}`).textContent = '';
+            }
         });
+    });
+});
 
 
     </script>

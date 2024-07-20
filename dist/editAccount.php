@@ -28,15 +28,22 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
     <title>نظام تثمين | تعديل حساب </title>
     <link rel="icon" href="assets/images/logo/tathmeen_logo.png">
 
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/bootstrap.css">
 
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/bootstrap.css">
 
-    <link rel="stylesheet" href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
-    <link rel="stylesheet" href="assets/vendors/bootstrap-icons/bootstrap-icons.css">
-    <link rel="stylesheet" href="assets/css/app.css">
-    <link rel="shortcut icon" href="assets/images/favicon.svg" type="image/x-icon">
+<link rel="stylesheet" href="assets/vendors/iconly/bold.css">
+
+<link rel="stylesheet" href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
+<link rel="stylesheet" href="assets/vendors/bootstrap-icons/bootstrap-icons.css">
+<link rel="stylesheet" href="assets/css/app.css">
+<link rel="shortcut icon" href="assets/images/favicon.svg" type="image/x-icon">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap" rel="stylesheet">
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         .card-header {
             display: flex;
@@ -82,6 +89,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 
 <body>
     <div id="app">
+
         <div id="sidebar" class="active">
             <div class="sidebar-wrapper active">
                 <div class="sidebar-header">
@@ -161,7 +169,10 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
                 </div>
             </div>
         </div>
-        <div id="main">
+
+
+
+        <div id="main" style="font-family: 'Cairo', sans-serif;">
             <header class="mb-3">
                 <a href="#" class="burger-btn d-block d-xl-none">
                     <i class="bi bi-justify fs-3"></i>
@@ -172,14 +183,14 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
                 <div class="page-title">
                     <div class="row">
                         <div class="col-12 col-md-6 order-md-1 order-last">
-                            <h3>نموذج إنشاء حساب جديد</h3>
-                            <p class="text-subtitle text-muted">إضافة حساب</p>
+                            <h3>نموذج تعديل حساب مسجل في نظام تثمين  </h3>
+                            <p class="text-subtitle text-muted"> معلومات التعديل  </p>
                         </div>
                         <div class="col-12 col-md-6 order-md-2 order-first">
                             <nav aria-label="breadcrumb" class="breadcrumb-header float-start">
                                 <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="index.html">الصفحة الرئيسة</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">إنشاء حساب جديد</li>
+                                    <li class="breadcrumb-item"><a href="index.php">الصفحة الرئيسة</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">تعديل حساب </li>
                                 </ol>
                             </nav>
                         </div>
@@ -194,17 +205,14 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
                                     <div class="card-header d-flex justify-content-between align-items-center">
                                         <h4 class="card-title mb-0">تعديل حساب</h4>
                                         <div class="action-buttons d-flex align-items-center">
-                                            <button class="btn btn-warning edit-btn  ms-3" id="editIcon">
+                                            <button class="btn btn-warning edit-btn ms-3" id="editIcon">
                                                 <i class="bi bi-pencil-square"></i>
                                             </button>
-
                                             <a href="account_management.php" class="btn btn-danger ms-3">إلغاء</a>
                                         </div>
-
                                     </div>
-
                                     <div class="card-body">
-                                        <form id="editForm" novalidate method="POST" action="../database/update.php">
+                                        <form id="editForm" method="POST" action="../database/update.php" novalidate>
                                             <div class="accordion" id="accordionExample">
                                                 <div class="accordion-item">
                                                     <h2 class="accordion-header" id="headingOne">
@@ -384,14 +392,14 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
                                                         </div>
                                                     </div>
                                                 </div>
+
+
                                                 <br>
                                                 <div class="d-flex justify-content-center">
                                                     <button type="submit" name="updateAccount"
                                                         class="btn btn-lg btn-primary rounded-pill mx-2">حفظ التعديلات
-                                                        <i class="fas fa-angle-left"></i></button>
+                                                    </button>
                                                 </div>
-
-
                                             </div>
                                         </form>
                                     </div>
@@ -401,153 +409,208 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
                     </section>
                 </section>
 
-
             </div>
 
         </div>
 
-        <footer>
-            <div class="footer clearfix mb-0 text-muted">
-                <div class="float-start">
-                    <p>2021 &copy; Mazer</p>
-                </div>
-                <div class="float-end">
-                    <p>Crafted with <span class="text-danger"><i class="bi bi-heart"></i></span> by <a
-                            href="http://ahmadsaugi.com">A. Saugi</a></p>
+        <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header btn-success">
+
+                                <h5 class="modal-title  " id="successModalLabel"  style="color: beige;"> تأكيد </h5>
+
+                            </div>
+                            <div class="modal-body">
+                                تم تعديل الحساب بنجاح
+                            </div>
+                            <div class="modal-footer">
+                                <a href="index.php" class="btn btn-success"> العودة للصفحة الرئيسة </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </footer>
+
+   
+            <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title" id="logoutModalLabel">تأكيد تسجيل الخروج</h5>
+
+                </div>
+                <div class="modal-body">
+                    هل أنت متأكد من أنك تريد تسجيل الخروج؟
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                    <a href="logout.php" class="btn btn-danger">تسجيل الخروج</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="footer clearfix mb-0 text-muted">
+            <div class="float-start">
+                <p>2021 &copy; Mazer</p>
+            </div>
+            <div class="float-end">
+                <p>Crafted with <span class="text-danger"><i class="bi bi-heart"></i></span> by <a
+                        href="http://ahmadsaugi.com">A. Saugi</a></p>
+            </div>
+        </div>
+    </footer>
     </div>
     </div>
     <script>
-        document.getElementById('editForm').addEventListener('submit', function (event) {
-            event.preventDefault();
-            let valid = true;
 
-            const firstName = document.getElementById('firstname');
-            const lastName = document.getElementById('lastname');
-            const email = document.getElementById('email');
-            const password = document.getElementById('password');
-            const role = document.getElementById('role');
-            const gender = document.getElementById('gender');
-            const age = document.getElementById('age');
-            const phone = document.getElementById('phone_number');
 
-            // Clear previous errors
-            document.querySelectorAll('.invalid-feedback').forEach(el => el.textContent = '');
-            document.querySelectorAll('.form-control, .form-select').forEach(el => el.classList.remove('is-invalid'));
+document.getElementById('editForm').addEventListener('submit', function (event) {
+    event.preventDefault();
+    let valid = true;
 
-            // Check first name
-            if (!firstName.value.trim()) {
-                valid = false;
-                firstName.classList.add('is-invalid');
-                document.getElementById('error-first-name').textContent = 'الرجاء إدخال الاسم الأول.';
-            }
+    const firstName = document.getElementById('firstname');
+    const lastName = document.getElementById('lastname');
+    const email = document.getElementById('email');
+    const password = document.getElementById('password');
+    const role = document.getElementById('role');
+    const gender = document.getElementById('gender');
+    const age = document.getElementById('age');
+    const phone = document.getElementById('phone_number');
 
-            // Check last name
-            if (!lastName.value.trim()) {
-                valid = false;
-                lastName.classList.add('is-invalid');
-                document.getElementById('error-last-name').textContent = 'الرجاء إدخال الاسم الأخير.';
-            }
+    // Clear previous errors
+    document.querySelectorAll('.invalid-feedback').forEach(el => el.textContent = '');
+    document.querySelectorAll('.form-control, .form-select').forEach(el => el.classList.remove('is-invalid'));
 
-            // Check email format
-            if (!validateEmail(email.value)) {
+    // Check first name
+    if (!firstName.value.trim()) {
+        valid = false;
+        firstName.classList.add('is-invalid');
+        document.getElementById('error-first-name').textContent = 'الرجاء إدخال الاسم الأول.';
+    }
+
+    // Check last name
+    if (!lastName.value.trim()) {
+        valid = false;
+        lastName.classList.add('is-invalid');
+        document.getElementById('error-last-name').textContent = 'الرجاء إدخال الاسم الأخير.';
+    }
+
+    // Check email
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email.value.trim()) {
+        valid = false;
+        email.classList.add('is-invalid');
+        document.getElementById('error-email').textContent = 'الرجاء إدخال البريد الإلكتروني.';
+    } else if (!emailPattern.test(email.value)) {
+        valid = false;
+        email.classList.add('is-invalid');
+        document.getElementById('error-email').textContent = 'الرجاء إدخال بريد إلكتروني صالح.';
+    }
+
+    // Check password
+    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+    if (!password.value.trim()) {
+        valid = false;
+        password.classList.add('is-invalid');
+        document.getElementById('error-password').textContent = 'الرجاء إدخال كلمة المرور.';
+    } else if (!passwordPattern.test(password.value)) {
+        valid = false;
+        password.classList.add('is-invalid');
+        document.getElementById('error-password').textContent = 'يجب أن تحتوي كلمة المرور على 8 أحرف على الأقل وتضم أحرفاً كبيرة وصغيرة وأرقاماً.';
+    }
+
+    // Check role
+    if (!role.value.trim()) {
+        valid = false;
+        role.classList.add('is-invalid');
+        document.getElementById('error-role').textContent = 'الرجاء اختيار الدور.';
+    }
+
+    // Check gender
+    if (!gender.value.trim()) {
+        valid = false;
+        gender.classList.add('is-invalid');
+        document.getElementById('error-gender').textContent = 'الرجاء اختيار الجنس.';
+    }
+
+    // Check age
+    if (!age.value.trim()) {
+        valid = false;
+        age.classList.add('is-invalid');
+        document.getElementById('error-age').textContent = 'الرجاء إدخال العمر.';
+    } else if (parseInt(age.value) < 0) {
+        valid = false;
+        age.classList.add('is-invalid');
+        document.getElementById('error-age').textContent = 'العمر يجب أن يكون قيمة موجبة.';
+    }
+
+    // Check phone number
+    const phonePattern = /^[0-9]{10}$/;
+    if (!phone.value.trim()) {
+        valid = false;
+        phone.classList.add('is-invalid');
+        document.getElementById('error-phone').textContent = 'الرجاء إدخال رقم الجوال.';
+    } else if (!phonePattern.test(phone.value)) {
+        valid = false;
+        phone.classList.add('is-invalid');
+        document.getElementById('error-phone').textContent = 'الرجاء إدخال رقم جوال صالح.';
+    }
+
+    // If email is valid, check if it already exists
+    if (valid) {
+        checkEmailExists(email.value, function (exists) {
+            if (exists && email.value !== email) {
                 valid = false;
                 email.classList.add('is-invalid');
-                document.getElementById('error-email').textContent = 'الرجاء إدخال بريد إلكتروني صحيح.';
-            } else {
-                // Check email uniqueness using AJAX
-                checkEmailAvailability(email.value, function (isUnique) {
-                    if (!isUnique) {
-                        valid = false;
-                        email.classList.add('is-invalid');
-                        document.getElementById('error-email').textContent = 'البريد الإلكتروني مسجل بالفعل.';
-                    }
-                    showSuccessModalIfValid(valid);
-                });
+                document.getElementById('error-email').textContent = 'البريد الإلكتروني مستخدم بالفعل.';
             }
 
-            // Check password
-            if (password.value.length < 8 || !/\d/.test(password.value) || !/[A-Z]/.test(password.value) || !/[a-z]/.test(password.value)) {
-                valid = false;
-                password.classList.add('is-invalid');
-                document.getElementById('error-password').textContent = 'كلمة المرور يجب أن تحتوي على حروف كبيرة وصغيرة وأرقام وأن يكون طولها 8 أحرف على الأقل.';
-            }
-
-            // Check role
-            if (!role.value) {
-                valid = false;
-                role.classList.add('is-invalid');
-                document.getElementById('error-role').textContent = 'الرجاء اختيار الدور.';
-            }
-
-            // Check gender
-            if (!gender.value) {
-                valid = false;
-                gender.classList.add('is-invalid');
-                document.getElementById('error-gender').textContent = 'الرجاء اختيار الجنس.';
-            }
-
-            // Check age
-            if (!age.value || age.value <= 0) {
-                valid = false;
-                age.classList.add('is-invalid');
-                document.getElementById('error-age').textContent = 'الرجاء إدخال عمر صحيح.';
-            }
-
-            // Check phone
-            if (!validatePhoneNumber(phone.value)) {
-                valid = false;
-                phone.classList.add('is-invalid');
-                document.getElementById('error-phone').textContent = 'الرجاء إدخال رقم جوال صحيح.';
-            }
-
-        });
-
-        function validateEmail(email) {
-            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return re.test(email);
-        }
-
-        function validatePhoneNumber(phone) {
-            const re = /^\d{10}$/;
-            return re.test(phone);
-        }
-
-        function checkEmailAvailability(email, callback) {
-            const xhr = new XMLHttpRequest();
-            xhr.open('POST', '../database/checkEmail.php', true);
-            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-            xhr.onload = function () {
-                if (xhr.status === 200) {
-                    const response = JSON.parse(xhr.responseText);
-                    callback(!response.exists);
-                } else {
-                    console.error('Error checking email availability: ' + xhr.statusText);
-                    callback(false);
-                }
-            };
-            xhr.send('email=' + encodeURIComponent(email));
-        }
-
-        function showSuccessModalIfValid(valid) {
+            // If all validations pass, submit the form
             if (valid) {
-                $('#successModal').modal('show');
+                submitForm();
             }
-        }
-
-        document.querySelectorAll('.form-control, .form-select').forEach(input => {
-            input.addEventListener('input', function () {
-                if (this.classList.contains('is-invalid')) {
-                    this.classList.remove('is-invalid');
-                    document.getElementById(`error-${this.id}`).textContent = '';
-                }
-            });
         });
+    }
+});
 
+function submitForm() {
+    const formData = new FormData(document.getElementById('editForm'));
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', '../database/update.php', true);
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            $('#successModal').modal('show');
+            setTimeout(() => {
+                window.location.href = 'index.php';
+            }, 2000);
+        } else {
+            console.error('Error submitting form: ' + xhr.statusText);
+        }
+    };
+    xhr.send(formData);
+}
 
-    </script>
+function checkEmailExists(email, callback) {
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', '../database/checkEmail2.php', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            const response = JSON.parse(xhr.responseText);
+            callback(response.exists);
+        } else {
+            console.error('Error checking email: ' + xhr.statusText);
+            callback(false);
+        }
+    };
+    xhr.send(`email=${encodeURIComponent(email)}`);
+}
+
+</script>
 
     <script>
         document.addEventListener('DOMContentLoaded', (event) => {

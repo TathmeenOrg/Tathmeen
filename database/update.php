@@ -1,14 +1,14 @@
 <?php
 include('config.php');
 session_start();
-var_dump($_POST);
-if (isset($_POST['updateAccount'])) {
 
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
 
-    $user_id = 2;
     $email = $_POST['email'];
     $firstname = $_POST['firstname'];
     $lastname = $_POST['lastname'];
@@ -18,7 +18,8 @@ if (isset($_POST['updateAccount'])) {
     $phone_number = $_POST['phone_number'];
     $password = $_POST['password'];
 
-    // Prepare and bind
+    $user_id = $_SESSION['user_id'];
+
     $stmt = $conn->prepare("UPDATE users SET email=?, firstname=?, lastname=?, gender=?, age=?, role=?, phone_number=?, password=? WHERE id=?");
     if ($stmt === false) {
         die("Error preparing statement: " . $conn->error);
@@ -26,16 +27,15 @@ if (isset($_POST['updateAccount'])) {
 
     $stmt->bind_param("ssssisssi", $email, $firstname, $lastname, $gender, $age, $role, $phone_number, $password, $user_id);
 
-    // Execute statement
     if ($stmt->execute() === FALSE) {
-        die("Error executing statement: " . $stmt->error);
+        echo 'خطأ في التنفيذ';
     } else {
-        echo "User updated successfully!";
+        echo 'تم التحديث بنجاح';
     }
 
     $stmt->close();
     $conn->close();
-    header('Location: index.php');
-    exit();
+} else {
+    echo "النموذج لم يتم إرساله";
 }
 ?>

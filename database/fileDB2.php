@@ -5,7 +5,6 @@ session_start();
 if (isset($_GET['financialOffer_id'])) {
     $file_id = intval($_GET['financialOffer_id']);
 
-    // إعداد استعلام الاسترجاع
     $stmt = $conn->prepare("SELECT file_name, file_data FROM financialOffers WHERE financialOffer_id = ?");
     $stmt->bind_param('i', $file_id);
     $stmt->execute();
