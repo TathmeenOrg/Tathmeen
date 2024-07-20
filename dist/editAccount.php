@@ -512,7 +512,7 @@ document.getElementById('editForm').addEventListener('submit', function (event) 
     }
 
     // Check password
-    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{9,}$/;
     if (!password.value.trim()) {
         valid = false;
         password.classList.add('is-invalid');
@@ -520,7 +520,7 @@ document.getElementById('editForm').addEventListener('submit', function (event) 
     } else if (!passwordPattern.test(password.value)) {
         valid = false;
         password.classList.add('is-invalid');
-        document.getElementById('error-password').textContent = 'يجب أن تحتوي كلمة المرور على 8 أحرف على الأقل وتضم أحرفاً كبيرة وصغيرة وأرقاماً.';
+        document.getElementById('error-password').textContent = 'يجب أن تحتوي كلمة المرور على 9 أحرف على الأقل وتضم أحرفاً كبيرة وصغيرة وأرقاماً.';
     }
 
     // Check role

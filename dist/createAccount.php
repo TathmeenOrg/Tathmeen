@@ -462,10 +462,10 @@ document.getElementById('CreateForm').addEventListener('submit', function (event
     }
 
     // Check password
-    if (password.value.length < 8 || !/\d/.test(password.value) || !/[A-Z]/.test(password.value) || !/[a-z]/.test(password.value)) {
+    if (password.value.length < 9 || !/\d/.test(password.value) || !/[A-Z]/.test(password.value) || !/[a-z]/.test(password.value)) {
         valid = false;
         password.classList.add('is-invalid');
-        document.getElementById('error-password').textContent = 'كلمة المرور يجب أن تحتوي على حروف كبيرة وصغيرة وأرقام وأن يكون طولها 8 أحرف على الأقل.';
+        document.getElementById('error-password').textContent = 'كلمة المرور يجب أن تحتوي على حروف كبيرة وصغيرة وأرقام وأن يكون طولها 9 أحرف على الأقل.';
     }
 
     // Check role
