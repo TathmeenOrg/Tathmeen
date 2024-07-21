@@ -8,7 +8,7 @@ mysqli_set_charset($conn, "utf8");
 $sql = "
 CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    email VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
     firstname VARCHAR(255) NOT NULL,
     lastname VARCHAR(255) NOT NULL,
     gender ENUM('male', 'female') NOT NULL,
@@ -16,8 +16,10 @@ CREATE TABLE IF NOT EXISTS users (
     role ENUM('super_admin', 'sub_admin') NOT NULL,
     phone_number VARCHAR(15) NOT NULL,
     password VARCHAR(255) NOT NULL,
-   security_code VARCHAR(255) NULL
+    security_code VARCHAR(255) NULL,
+    login_count INT DEFAULT 1
 );
+
 
 CREATE TABLE IF NOT EXISTS financialOffers (
     financialOffer_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -25,7 +27,7 @@ CREATE TABLE IF NOT EXISTS financialOffers (
     created_at DATE NOT NULL,
     association_name VARCHAR(255) NOT NULL,
     client_address VARCHAR(255) NOT NULL,
-    file_name VARCHAR(255) NOT NULL,
+    file_name VARCHAR(255)  NULL,
     total_price DECIMAL(20, 2) NOT NULL,
     file_download_status BOOLEAN NOT NULL DEFAULT 0,
     file_data LONGBLOB DEFAULT NULL, 

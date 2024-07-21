@@ -3,7 +3,7 @@
 
 <head>
     <?php
-    include('../database/config.php');
+    include ('../database/config.php');
     session_start();
 
     // تحقق من تسجيل الدخول
@@ -31,8 +31,61 @@
         $_SESSION['user_gender'] = $row2['gender'];
     }
 
+
+
+    //الاسم حق اليوزر الحالي
+    $sql3 = "SELECT firstname, lastname FROM users WHERE id = " . $_SESSION['user_id'] . "";
+    $result3 = $conn->query($sql3);
+
+    if ($result3->num_rows > 0) {
+        $row3 = $result3->fetch_assoc();
+        $_SESSION['user_name'] = $row3['firstname'] . ' ' . $row3['lastname'];
+    }
+
     //اسم الصفحه حاليّا
     $current_page = basename($_SERVER['PHP_SELF']);
+
+
+
+    //متوسط سعر العروض المالية 
+    $user_id = $_SESSION['user_id'];
+    $query_role = "SELECT role FROM users WHERE id = ?";
+    $stmt_role = $conn->prepare($query_role);
+    $stmt_role->bind_param("i", $user_id);
+    $stmt_role->execute();
+    $result_role = $stmt_role->get_result();
+
+    $user_role = '';
+    if ($result_role->num_rows > 0) {
+        $row_role = $result_role->fetch_assoc();
+        $user_role = $row_role['role'];
+    }
+
+    $stmt_role->close();
+
+    if ($user_role == 'super_admin') {
+        $query = "SELECT AVG(total_price) as average_price FROM financialoffers";
+    } else if ($user_role == 'sub_admin') {
+        $query = "SELECT AVG(total_price) as average_price FROM financialoffers WHERE user_id = ?";
+    }
+
+    $stmt = $conn->prepare($query);
+
+    if ($user_role == 'sub_admin') {
+        $stmt->bind_param("i", $user_id);
+    }
+
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    $average_price = 0;
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $average_price = $row['average_price'];
+    }
+
+    $stmt->close();
+
     ?>
 
     <meta charset="UTF-8">
@@ -77,6 +130,8 @@
             text-decoration: none;
             display: block;
         }
+
+    
     </style>
 </head>
 
@@ -106,8 +161,9 @@
                         </li>
 
                         <li class="sidebar-title">قسم الإدارات</li>
-                        <?php if ($_SESSION['user_role'] === 'super_admin') : ?>
-                            <li id='account_management' class='sidebar-item <?= $current_page == 'account_management.php' ? 'active' : '' ?>'>
+                        <?php if ($_SESSION['user_role'] === 'super_admin'): ?>
+                            <li id='account_management'
+                                class='sidebar-item <?= $current_page == 'account_management.php' ? 'active' : '' ?>'>
                                 <a href='account_management.php' class='sidebar-link'>
                                     <i class='bi bi-person-square'></i>
                                     <span>إدارة الحسابات</span>
@@ -115,7 +171,8 @@
                             </li>
                         <?php endif; ?>
 
-                        <li class="sidebar-item <?= $current_page == 'financial_offers_management.php' ? 'active' : '' ?>">
+                        <li
+                            class="sidebar-item <?= $current_page == 'financial_offers_management.php' ? 'active' : '' ?>">
                             <a href="financial_offers_management.php" class='sidebar-link'>
                                 <i class="bi bi-briefcase-fill"></i>
                                 <span>إدارة العروض المالية</span>
@@ -131,7 +188,7 @@
                             </a>
                         </li>
 
-                        <?php if ($_SESSION['user_role'] === 'super_admin') : ?>
+                        <?php if ($_SESSION['user_role'] === 'super_admin'): ?>
                             <li class='sidebar-title'>قسم إدارة الشركة</li>
                             <li class='sidebar-item <?= $current_page == 'company-information-form.php' ? 'active' : '' ?>'>
                                 <a href='company-information-form.php' class='sidebar-link'>
@@ -185,7 +242,10 @@
                                             </div>
                                             <div class="col-md-8">
                                                 <h6 class="text-muted font-semibold">عدد مرات تسجيل الدخول</h6>
-                                                <h6 class="font-extrabold mb-0">112.000</h6>
+                                                <h6 class="font-extrabold mb-0">
+                                                    <?php echo isset($_SESSION['user_login_count']) ? $_SESSION['user_login_count'] : 'N/A'; ?>
+                                                </h6>
+                                                </h6>
                                             </div>
                                         </div>
                                     </div>
@@ -201,7 +261,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-8">
-                                                <h6 class="text-muted font-semibold">عدد الحسابات</h6>
+                                                <h6 class="text-muted font-semibold">عدد الحسابات المسجلة في النظام</h6>
                                                 <h6 class="font-extrabold mb-0"><?php echo $count; ?></h6>
                                             </div>
                                         </div>
@@ -214,12 +274,14 @@
                                         <div class="row">
                                             <div class="col-md-4">
                                                 <div class="stats-icon green">
-                                                    <i class="iconly-boldShow"></i>
+                                                    <i class="iconly-boldWallet"></i>
                                                 </div>
                                             </div>
                                             <div class="col-md-8">
-                                                <h6 class="text-muted font-semibold">عدد ...</h6>
-                                                <h6 class="font-extrabold mb-0">80.000</h6>
+                                                <h6 class="text-muted font-semibold">متوسط أسعار العروض المالية </h6>
+                                                <h6 class="font-extrabold mb-0">
+                                                    <?php echo number_format($average_price, 2); ?> ريال
+                                                </h6>
                                             </div>
                                         </div>
                                     </div>
@@ -230,7 +292,7 @@
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h4>عدد الزيارات</h4>
+                                        <h4>عدد العروض المالية الصادرة </h4>
                                     </div>
                                     <div class="card-body">
                                         <div id="chart-profile-visit"></div>
@@ -239,7 +301,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <?php if ($_SESSION['user_role'] === 'super_admin') : ?>
+                            <?php if ($_SESSION['user_role'] === 'super_admin'): ?>
                                 <div class="col-6 col-lg-6 col-md-6">
                                     <div class="card">
                                         <a href="createAccount.php">
@@ -251,7 +313,8 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-md-10" style="padding: 0.5rem 1.0rem;">
-                                                        <h6 class="text-muted font-semibold" style="font-size: large;">إنشاء حساب مستخدم جديد</h6>
+                                                        <h6 class="text-muted font-semibold" style="font-size: large;">إنشاء
+                                                            حساب مستخدم جديد</h6>
                                                     </div>
                                                 </div>
                                             </div>
@@ -270,7 +333,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-10" style="padding: 0.5rem 1.0rem;">
-                                                    <h6 class="text-muted font-semibold" style="font-size: large;">إضافة عرض مالي جديد</h6>
+                                                    <h6 class="text-muted font-semibold" style="font-size: large;">إضافة
+                                                        عرض مالي جديد</h6>
                                                 </div>
                                             </div>
                                         </a>
@@ -295,8 +359,8 @@
                                     echo "</div>";
                                 }
                                 echo "<div class='ms-3 name' style='padding-right: 10px;'>";
-                                echo "<h5 class='font-bold'>" . $_SESSION['user_name'] . "</h5>";
-                                echo "<h6 class='text-muted mb-0'>" . $_SESSION['user_role'] . " @</h6>";
+                                echo "<h6 class='font-bold'>" . $_SESSION['user_name'] . "</h6>";
+                                echo "<h6 class='text-muted mb-0'>" . $_SESSION['user_role'] ." @</h6>";
                                 echo "</div>";
                                 echo "</div>";
                                 ?>
@@ -307,41 +371,44 @@
                                 <h4>المستخدمين</h4>
                             </div>
                             <div class="card-content pb-4">
-                                <div class="recent-message d-flex px-4 py-3">
-                                    <div class="avatar avatar-lg">
-                                        <img src="assets/images/faces/4.jpg">
-                                    </div>
-                                    <div class="name ms-4" style='padding-right: 10px;'>
-                                        <h5 class="mb-1">Hank Schrader</h5>
-                                        <h6 class="text-muted mb-0">johnducky@</h6>
-                                    </div>
-                                </div>
-                                <div class="recent-message d-flex px-4 py-3">
-                                    <div class="avatar avatar-lg">
-                                        <img src="assets/images/faces/5.jpg">
-                                    </div>
-                                    <div class="name ms-4" style='padding-right: 10px;'>
-                                        <h5 class="mb-1">Dean Winchester</h5>
-                                        <h6 class="text-muted mb-0">imdean@</h6>
-                                    </div>
-                                </div>
-                                <div class="recent-message d-flex px-4 py-3">
-                                    <div class="avatar avatar-lg">
-                                        <img src="assets/images/faces/1.jpg">
-                                    </div>
-                                    <div class="name ms-4" style='padding-right: 10px;'>
-                                        <h5 class="mb-1">John Dodol</h5>
-                                        <h6 class="text-muted mb-0">dodoljohn@</h6>
-                                    </div>
-                                </div>
+                                <?php
+
+                                $sql = "SELECT * FROM users";
+                                $result = $conn->query($sql);
+
+                                $users = [];
+                                if ($result->num_rows > 0) {
+                                    while ($row = $result->fetch_assoc()) {
+                                        $users[] = $row;
+                                    }
+                                } else {
+                                    echo "<p>لا يوجد مستخدمين لعرضهم</p>";
+                                }
+                                // Display first 4 users
+                                for ($i = 0; $i < min(3, count($users)); $i++) {
+                                    $row = $users[$i];
+                                    $avatarImage = ($row['gender'] == 'female') ? 'assets/images/faces/3.jpg' : 'assets/images/faces/2.jpg';
+
+                                    echo "<div class='recent-message d-flex px-4 py-3'>";
+                                    echo "<div class='avatar avatar-lg'>";
+                                    echo "<img src='" . $avatarImage . "' alt='Avatar'>";
+                                    echo "</div>";
+                                    echo "<div class='name ms-4' style='padding-right: 10px;'>";
+                                    echo "<h6 class='mb-1'>" . htmlspecialchars($row['firstname'] . ' ' . $row['lastname']) . "</h6>";
+                                    echo "<h6 class='text-muted mb-0'>" . htmlspecialchars($row['role']) . "</h6>";
+                                    echo "</div>";
+                                    echo "</div>";
+                                }
+                                ?>
                                 <div class="px-4">
-                                    <button class='btn btn-block btn-xl btn-light-primary font-bold mt-3'>عرض الكل</button>
+                                    <button class='btn btn-block btn-xl btn-light-primary font-bold mt-3'
+                                        data-bs-toggle="modal" data-bs-target="#allUsersModal">عرض الكل</button>
                                 </div>
                             </div>
                         </div>
                         <div class="card">
                             <div class="card-header">
-                                <h4>Visitors Profile</h4>
+                                <h4>تصنيف المستخدمين </h4>
                             </div>
                             <div class="card-body">
                                 <div id="chart-visitors-profile"></div>
@@ -351,8 +418,47 @@
                 </section>
             </div>
 
-            <!-- Logout Modal -->
-            <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+
+
+
+            <!-- Modal -->
+            <div class="modal fade" id="allUsersModal" tabindex="-1" aria-labelledby="allUsersModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header  ">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <h5 class="modal-title" id="allUsersModalLabel">جميع المستخدمين</h5>
+                        </div>
+
+
+                        <div class="modal-body">
+                            <?php
+                         
+                            foreach ($users as $row) {
+                                $avatarImage = ($row['gender'] == 'female') ? 'assets/images/faces/3.jpg' : 'assets/images/faces/2.jpg';
+
+                                echo "<div class='recent-message d-flex px-4 py-3'>";
+                                echo "<div class='avatar avatar-lg'>";
+                                echo "<img src='" . $avatarImage . "' alt='Avatar'>";
+                                echo "</div>";
+                                echo "<div class='name ms-4' style='padding-right: 10px;'>";
+                                echo "<h5 class='mb-1'>" . htmlspecialchars($row['firstname'] . ' ' . $row['lastname']) . "</h5>";
+                                echo "<h6 class='text-muted mb-0'>" . htmlspecialchars($row['role']) . "</h6>";
+                                echo "</div>";
+                                echo "</div>";
+                            }
+                            ?>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+                        </div>
+                    </div>
+                </div>
+            </div>      
+
+           <!-- Logout Modal -->
+           <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -376,12 +482,15 @@
                         <p>2021 &copy; Mazer</p>
                     </div>
                     <div class="float-end">
-                        <p>Crafted with <span class="text-danger"><i class="bi bi-heart"></i></span> by <a href="http://ahmadsaugi.com">A. Saugi</a></p>
+                        <p>Crafted with <span class="text-danger"><i class="bi bi-heart"></i></span> by <a
+                                href="http://ahmadsaugi.com">A. Saugi</a></p>
                     </div>
                 </div>
             </footer>
         </div>
     </div>
+
+
     <script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
     <script src="assets/js/bootstrap.bundle.min.js"></script>
 
@@ -389,6 +498,7 @@
     <script src="assets/js/pages/dashboard.js"></script>
 
     <script src="assets/js/main.js"></script>
+
 </body>
 
 </html>

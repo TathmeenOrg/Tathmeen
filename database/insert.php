@@ -4,8 +4,8 @@ include('config.php');
 mysqli_set_charset($conn, "utf8");
 
 $sql = "
-INSERT INTO users (email, firstname, lastname, gender, age, role, phone_number, password, security_code)
-VALUES ('Superadmin@asbq.dev', 'Super', 'admin', 'male', 25, 'super_admin', '0534067890', 'S3cur3P@ssw0rd!', NULL)
+INSERT INTO users (email, firstname, lastname, gender, age, role, phone_number, password, security_code,login_count)
+VALUES ('Superadmin@asbq.dev', 'Super', 'admin', 'male', 25, 'super_admin', '0534067890', 'S3cur3P@ssw0rd!', NULL,1)
 ON DUPLICATE KEY UPDATE 
     email = VALUES(email),
     role = VALUES(role),

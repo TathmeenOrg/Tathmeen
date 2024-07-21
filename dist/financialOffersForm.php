@@ -1,5 +1,5 @@
 <?php
-  include('../database/config.php');
+include('../database/config.php');
 session_start();
 ?>
 <!DOCTYPE html>
@@ -8,7 +8,7 @@ session_start();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نظام تثمين |  نموذج إنشاء عرض مالي   </title>
+    <title>نظام تثمين | نموذج إنشاء عرض مالي </title>
     <link rel="icon" href="assets/images/logo/tathmeen_logo.png">
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -101,14 +101,16 @@ session_start();
             font-weight: bold;
             margin-left: 5px;
         }
+
         .btn i {
-            vertical-align: middle; 
-         
+            vertical-align: middle;
+
             position: relative;
-            top: 4px; 
+            top: 4px;
         }
+
         .btn {
-            line-height: 1.5; 
+            line-height: 1.5;
             align-items: center;
         }
     </style>
@@ -117,7 +119,7 @@ session_start();
 
 <body>
     <div id="app">
-    <div id="sidebar" class="active">
+        <div id="sidebar" class="active">
             <div class="sidebar-wrapper active">
                 <div class="sidebar-header">
                     <div class="d-flex justify-content-between">
@@ -198,14 +200,14 @@ session_start();
 
 
 
-    <div id="main" style="font-family: 'Cairo', sans-serif;">
-        <header class="mb-3">
-            <a href="#" class="burger-btn d-block d-xl-none">
-                <i class="bi bi-justify fs-3"></i>
-            </a>
-        </header>
+        <div id="main" style="font-family: 'Cairo', sans-serif;">
+            <header class="mb-3">
+                <a href="#" class="burger-btn d-block d-xl-none">
+                    <i class="bi bi-justify fs-3"></i>
+                </a>
+            </header>
 
-        <div class="page-heading" style="font-family: 'Cairo', sans-serif;">
+            <div class="page-heading" style="font-family: 'Cairo', sans-serif;">
             <div class="page-title">
                 <div class="row">
                     <div class="col-12 col-md-6 order-md-1 order-last">
@@ -223,44 +225,31 @@ session_start();
                     </div>
                 </div>
             </div>
-
-            <section>
-                <div class="container" style="font-family: 'Cairo', sans-serif;">
-                    <div class="wizard my-5">
-                        <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
-                            <li class="nav-item flex-fill" role="presentation" data-bs-toggle="tooltip"
-                                data-bs-placement="top" title="Step 1">
-                                <a class="nav-link1 active rounded-circle mx-auto d-flex align-items-center justify-content-center"
-                                    href="#step1" id="step1-tab" data-bs-toggle="tab" role="tab" aria-controls="step1"
-                                    aria-selected="true">
-                                    1
-                                </a>
-                            </li>
-                            <li class="nav-item flex-fill" role="presentation" data-bs-toggle="tooltip"
-                                data-bs-placement="top" title="Step 2">
-                                <a class="nav-link1 rounded-circle mx-auto d-flex align-items-center justify-content-center"
-                                    href="#step2" id="step2-tab" data-bs-toggle="tab" role="tab" aria-controls="step2"
-                                    aria-selected="false">
-                                    2
-                                </a>
-                            </li>
-                            <li class="nav-item flex-fill" role="presentation" data-bs-toggle="tooltip"
-                                data-bs-placement="top" title="Step 3">
-                                <a class="nav-link1 rounded-circle mx-auto d-flex align-items-center justify-content-center"
-                                    href="#step3" id="step3-tab" data-bs-toggle="tab" role="tab" aria-controls="step3"
-                                    aria-selected="false">
-                                    3
-                                </a>
-                            </li>
-                            <li class="nav-item flex-fill" role="presentation" data-bs-toggle="tooltip"
-                                data-bs-placement="top" title="Step 4">
-                                <a class="nav-link1 rounded-circle mx-auto d-flex align-items-center justify-content-center"
-                                    href="#step4" id="step4-tab" data-bs-toggle="tab" role="tab" aria-controls="step4"
-                                    aria-selected="false">
-                                    4
-                                </a>
-                            </li>
-                            <!-- <li class="nav-item flex-fill" role="presentation" data-bs-toggle="tooltip"
+                <section>
+                    <div class="container" style="font-family: 'Cairo', sans-serif;">
+                        <div class="wizard my-5">
+                            <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
+                                <li class="nav-item flex-fill" role="presentation" data-bs-toggle="tooltip" data-bs-placement="top" title="Step 1">
+                                    <a class="nav-link1 active rounded-circle mx-auto d-flex align-items-center justify-content-center" href="#step1" id="step1-tab" data-bs-toggle="tab" role="tab" aria-controls="step1" aria-selected="true">
+                                        1
+                                    </a>
+                                </li>
+                                <li class="nav-item flex-fill" role="presentation" data-bs-toggle="tooltip" data-bs-placement="top" title="Step 2">
+                                    <a class="nav-link1 rounded-circle mx-auto d-flex align-items-center justify-content-center" href="#step2" id="step2-tab" data-bs-toggle="tab" role="tab" aria-controls="step2" aria-selected="false">
+                                        2
+                                    </a>
+                                </li>
+                                <li class="nav-item flex-fill" role="presentation" data-bs-toggle="tooltip" data-bs-placement="top" title="Step 3">
+                                    <a class="nav-link1 rounded-circle mx-auto d-flex align-items-center justify-content-center" href="#step3" id="step3-tab" data-bs-toggle="tab" role="tab" aria-controls="step3" aria-selected="false">
+                                        3
+                                    </a>
+                                </li>
+                                <li class="nav-item flex-fill" role="presentation" data-bs-toggle="tooltip" data-bs-placement="top" title="Step 4">
+                                    <a class="nav-link1 rounded-circle mx-auto d-flex align-items-center justify-content-center" href="#step4" id="step4-tab" data-bs-toggle="tab" role="tab" aria-controls="step4" aria-selected="false">
+                                        4
+                                    </a>
+                                </li>
+                                <!-- <li class="nav-item flex-fill" role="presentation" data-bs-toggle="tooltip"
                                     data-bs-placement="top" title="Step 5">
                                     <a class="nav-link1 rounded-circle mx-auto d-flex align-items-center justify-content-center"
                                         href="#step5" id="step5-tab" data-bs-toggle="tab" role="tab"
@@ -268,182 +257,150 @@ session_start();
                                         5
                                     </a>
                                 </li> -->
-                        </ul>
-                    </div>
+                            </ul>
+                        </div>
 
-                    <form class="form form-horizontal" id="financialoffersForm" method="POST"
-                        action="../database/financialoffersAndServicsDB.php">
-                        <div class="tab-content" id="myTabContent">
+                        <form class="form form-horizontal" id="financialoffersForm" method="POST" action="../database/financialoffersAndServicsDB.php">
+                            <div class="tab-content" id="myTabContent">
 
 
-                            <div class="tab-pane fade show active" role="tabpanel" id="step1"
-                                aria-labelledby="step1-tab" style="margin-top: 25px;">
-                                <h3 class="text-center">القسم الأول</h3>
-                                <section id="basic-horizontal-layouts">
-                                    <div class="row justify-content-center">
-                                        <div class="col-md-8 col-12">
-                                            <div class="card">
-                                                <div class="card-header">
-                                                    <h4 class="card-title">المعلومات الأساسية</h4>
-                                                </div>
-                                                <div class="card-content">
-                                                    <div class="card-body">
-                                                        <div class="form-body">
-                                                            <div class="row">
-                                                                <div class="col-md-4">
-                                                                    <label>اسم الشركة</label>
-                                                                </div>
-                                                                <div class="col-md-8 form-group">
-                                                                    <input type="text" id="first-name"
-                                                                        class="form-control" name="association_name"
-                                                                        placeholder="أدخل اسم الشركة" required>
-                                                                </div>
-                                                                <div class="col-md-4">
-                                                                    <label>تاريخ إنشاء العرض</label>
-                                                                </div>
-                                                                <div class="col-md-8 form-group">
-                                                                    <input type="date" id="creation-date"
-                                                                        class="form-control" name="created_at" readonly>
-                                                                </div>
-                                                                <div class="col-md-4">
-                                                                    <label>عنوان العميل</label>
-                                                                </div>
-                                                                <div class="col-md-8 form-group">
-                                                                    <input type="text" id="contact-info"
-                                                                        class="form-control" name="client_address"
-                                                                        placeholder="أدخل عنوان العميل" required>
+                                <div class="tab-pane fade show active" role="tabpanel" id="step1" aria-labelledby="step1-tab" style="margin-top: 25px;">
+                                    <h3 class="text-center">القسم الأول</h3>
+                                    <section id="basic-horizontal-layouts">
+                                        <div class="row justify-content-center">
+                                            <div class="col-md-8 col-12">
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        <h4 class="card-title">المعلومات الأساسية</h4>
+                                                    </div>
+                                                    <div class="card-content">
+                                                        <div class="card-body">
+                                                            <div class="form-body">
+                                                                <div class="row">
+                                                                    <div class="col-md-4">
+                                                                        <label>اسم الشركة</label>
+                                                                    </div>
+                                                                    <div class="col-md-8 form-group">
+                                                                        <input type="text" id="first-name" class="form-control" name="association_name" placeholder="أدخل اسم الشركة" required>
+                                                                    </div>
+                                                                    <div class="col-md-4">
+                                                                        <label>تاريخ إنشاء العرض</label>
+                                                                    </div>
+                                                                    <div class="col-md-8 form-group">
+                                                                        <input type="date" id="creation-date" class="form-control" name="created_at" readonly>
+                                                                    </div>
+                                                                    <div class="col-md-4">
+                                                                        <label>عنوان العميل</label>
+                                                                    </div>
+                                                                    <div class="col-md-8 form-group">
+                                                                        <input type="text" id="contact-info" class="form-control" name="client_address" placeholder="أدخل عنوان العميل" required>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="d-flex justify-content-center">
-                                                <button type="button"
-                                                    class="btn btn-lg btn-primary rounded-pill back mx-2"
-                                                    style="pointer-events: none; opacity: 0.6;"><i
-                                                        class="fas fa-angle-right"></i> السابق</button>
-                                                <button type="button"
-                                                    class="btn btn-lg btn-primary rounded-pill next mx-2">التالي <i
-                                                        class="fas fa-angle-left"></i></button>
+                                                <div class="d-flex justify-content-center">
+                                                    <button type="button" class="btn btn-lg btn-primary rounded-pill back mx-2" style="pointer-events: none; opacity: 0.6;"><i class="fas fa-angle-right"></i> السابق</button>
+                                                    <button type="button" class="btn btn-lg btn-primary rounded-pill next mx-2">التالي <i class="fas fa-angle-left"></i></button>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </section>
-                            </div>
-                            <div class="tab-pane fade" role="tabpanel" id="step2" aria-labelledby="step2-tab"
-                                style="margin-top: 25px;">
-                                <h3 class="text-center">القسم الثاني</h3>
-                                <section class="section">
-                                    <div class="row justify-content-center" id="table-hover-row">
-                                        <div class="col-md-8 col-12">
-                                            <div class="card">
-                                                <div class="card-header">
-                                                    <h4 class="card-title">الخدمات</h4>
-                                                    <p>إضافة خدمة واحدة على الأقل</p>
-                                                </div>
-                                                <div class="card-content">
-                                                    <div class="table-responsive">
-                                                        <table class="table table-hover mb-0" id="serviceTable">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th id="AttrRequired">الخدمة</th>
-                                                                    <th id="AttrRequired">سعر الخدمة</th>
-                                                                    <th id="AttrRequired">الكمية</th>
-                                                                    <th>السعر الإجمالي للخدمة</th>
-                                                                    <th>الإجراء</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <tr>
-                                                                    <td><input type="text" name="service[]"
-                                                                            class="form-control service"
-                                                                            placeholder="أدخل الخدمة" required></td>
-                                                                    <td><input type="number" name="service_price[]"
-                                                                            class="form-control rate"
-                                                                            placeholder="أدخل سعر الخدمة" min="0"
-                                                                            pattern="[0-9]*" required></td>
-                                                                    <td><input type="number" name="quantity[]"
-                                                                            class="form-control quantity"
-                                                                            placeholder="أدخل الكمية" min="1"
-                                                                            pattern="[0-9]*" required></td>
-                                                                    <td><input type="number"
-                                                                            name="total_service_price[]"
-                                                                            class="form-control total"
-                                                                            placeholder="السعر الإجمالي" required  readonly>
-                                                                    </td>
-
-                                                                </tr>
-                                                            </tbody>
-                                                            <tfoot>
-                                                                <tr>
-                                                                    <td colspan="3" style="font-weight: bold;">السعر
-                                                                        الإجمالي</td>
-                                                                    <td><input type="number" class="form-control"
-                                                                            id="overallTotal"
-                                                                            style="background-color: transparent; border: transparent; font-weight: bold;"
-                                                                            readonly></td>
-                                                                    <td></td>
-                                                                </tr>
-                                                            </tfoot>
-                                                        </table>
-                                                    </div>
-                                        
-                                <div class="d-flex  mt-3" style="padding-bottom: 20px; padding-right: 10px;">
-                                    <button type="button" class="btn btn-secondary" id="addRow">
-                                        <i class="bi bi-plus-circle"></i> إضافة خدمة
-                                    </button>
+                                    </section>
                                 </div>
-                                        </div>
-                                            </div>
-                                            <div class="d-flex justify-content-center">
-                                                <button type="button"
-                                                    class="btn btn-lg btn-primary rounded-pill back mx-2"><i
-                                                        class="fas fa-angle-right"></i> السابق</button>
-                                                <button type="button"
-                                                    class="btn btn-lg btn-primary rounded-pill next mx-2">التالي <i
-                                                        class="fas fa-angle-left"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </section>
-                            </div>
+                                <div class="tab-pane fade" role="tabpanel" id="step2" aria-labelledby="step2-tab" style="margin-top: 25px;">
+                                    <h3 class="text-center">القسم الثاني</h3>
+                                    <section class="section">
+                                        <div class="row justify-content-center" id="table-hover-row">
+                                            <div class="col-md-8 col-12">
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        <h4 class="card-title">الخدمات</h4>
+                                                        <p>إضافة خدمة واحدة على الأقل</p>
+                                                    </div>
+                                                    <div class="card-content">
+                                                        <div class="table-responsive">
+                                                            <table class="table table-hover mb-0" id="serviceTable">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th id="AttrRequired">الخدمة</th>
+                                                                        <th id="AttrRequired">سعر الخدمة</th>
+                                                                        <th id="AttrRequired">الكمية</th>
+                                                                        <th>السعر الإجمالي للخدمة</th>
+                                                                        <th>الإجراء</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td><input type="text" name="service[]" class="form-control service" placeholder="أدخل الخدمة" required></td>
+                                                                        <td><input type="number" name="service_price[]" class="form-control rate" placeholder="أدخل سعر الخدمة" min="0" pattern="[0-9]*" required></td>
+                                                                        <td><input type="number" name="quantity[]" class="form-control quantity" placeholder="أدخل الكمية" min="1" pattern="[0-9]*" required></td>
+                                                                        <td><input type="number" name="total_service_price[]" class="form-control total" placeholder="السعر الإجمالي" required readonly>
+                                                                        </td>
 
+                                                                    </tr>
+                                                                </tbody>
+                                                                <tfoot>
+                                                                    <tr>
+                                                                        <td colspan="3" style="font-weight: bold;">السعر
+                                                                            الإجمالي</td>
+                                                                        <td><input type="number" class="form-control" id="overallTotal" style="background-color: transparent; border: transparent; font-weight: bold;" readonly></td>
+                                                                        <td></td>
+                                                                    </tr>
+                                                                </tfoot>
+                                                            </table>
+                                                        </div>
 
-
-
-
-
-                            <!-- //------------------------------------  Mannnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnar :  -->
-
-                            <div class="tab-pane fade" role="tabpanel" id="step3" aria-labelledby="step3-tab"
-                                style="margin-top: 25px;">
-                                <h3 class="text-center">القسم الثالث</h3>
-
-                                <section id="basic-horizontal-layouts">
-                                    <div class="row justify-content-center">
-                                        <div class="col-md-8 col-12">
-                                            <div class="card" style="padding-bottom: 20px;">
-                                                <div class="card-header">
-                                                    <h4 class="card-title">بنود البيان </h4>
+                                                        <div class="d-flex  mt-3" style="padding-bottom: 20px; padding-right: 10px;">
+                                                            <button type="button" class="btn btn-secondary" id="addRow">
+                                                                <i class="bi bi-plus-circle"></i> إضافة خدمة
+                                                            </button>
+                                                        </div>
+                                                    </div>
                                                 </div>
+                                                <div class="d-flex justify-content-center">
+                                                    <button type="button" class="btn btn-lg btn-primary rounded-pill back mx-2"><i class="fas fa-angle-right"></i> السابق</button>
+                                                    <button type="button" class="btn btn-lg btn-primary rounded-pill next mx-2">التالي <i class="fas fa-angle-left"></i></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
 
 
 
-                                                <table class="table table-striped mb-0">
-                                                    <thead>
-                                                        <tr>
-                                                            <th style="text-align: center;">رقم البند</th>
-                                                            <th style="text-align: center;"> البند</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody id="statementTableBody">
-                                                        <?php
-                                                              include('../database/config.php');
-                                                              $sql = "SELECT id, statement_description FROM statements ORDER BY id ASC";
-                                                              $result = $conn->query($sql);
-                
-                                                             if ($result->num_rows > 0) {
+
+
+
+                                <!-- //------------------------------------  Mannnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnar :  -->
+
+                                <div class="tab-pane fade" role="tabpanel" id="step3" aria-labelledby="step3-tab" style="margin-top: 25px;">
+                                    <h3 class="text-center">القسم الثالث</h3>
+
+                                    <section id="basic-horizontal-layouts">
+                                        <div class="row justify-content-center">
+                                            <div class="col-md-8 col-12">
+                                                <div class="card" style="padding-bottom: 20px;">
+                                                    <div class="card-header">
+                                                        <h4 class="card-title">بنود البيان </h4>
+                                                    </div>
+
+
+
+                                                    <table class="table table-striped mb-0">
+                                                        <thead>
+                                                            <tr>
+                                                                <th style="text-align: center;">رقم البند</th>
+                                                                <th style="text-align: center;"> البند</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="statementTableBody">
+                                                            <?php
+                                                            include('../database/config.php');
+                                                            $sql = "SELECT id, statement_description FROM statements ORDER BY id ASC";
+                                                            $result = $conn->query($sql);
+
+                                                            if ($result->num_rows > 0) {
                                                                 while ($row = $result->fetch_assoc()) {
                                                                     echo "<tr>";
                                                                     echo "<td class='statement-id' style='text-align: center;'>" . $row["id"] . "</td>";
@@ -452,87 +409,121 @@ session_start();
 
                                                                     echo "</td>";
                                                                     echo "</tr>";
-                                                                           }
-                                                                    } else {
-                                                                    echo "<tr><td colspan='3' style='text-align: center;'>لا توجد بيانات</td></tr>";
-                                                                     }
-                                                                        ?>
-                                                    </tbody>
-                                                </table>
+                                                                }
+                                                            } else {
+                                                                echo "<tr><td colspan='3' style='text-align: center;'>لا توجد بيانات</td></tr>";
+                                                            }
+                                                            ?>
+                                                        </tbody>
+                                                    </table>
 
+
+                                                </div>
+                                                <div class="d-flex justify-content-center">
+                                                    <button type="button" class="btn btn-lg btn-primary rounded-pill back mx-2"><i class="fas fa-angle-right"></i> السابق</button>
+                                                    <button type="button" class="btn btn-lg btn-primary rounded-pill next mx-2">التالي
+                                                        <i class="fas fa-angle-left"></i></button>
+                                                </div>
 
                                             </div>
-                                            <div class="d-flex justify-content-center">
-                                                <button type="button"
-                                                    class="btn btn-lg btn-primary rounded-pill back mx-2"><i
-                                                        class="fas fa-angle-right"></i> السابق</button>
-                                                <button type="button"
-                                                    class="btn btn-lg btn-primary rounded-pill next mx-2">التالي
-                                                    <i class="fas fa-angle-left"></i></button>
-                                            </div>
-
                                         </div>
-                                    </div>
 
-                                </section>
-                            </div>
-
-
-                            <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id']; ?>">
+                                    </section>
+                                </div>
 
 
-                            <div class="tab-pane fade" role="tabpanel" id="step4" aria-labelledby="step4-tab"
-                                style="margin-top: 25px;">
-                                <h3 class="text-center">القسم الرابع</h3>
+                                <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id']; ?>">
 
-                                <div class="d-flex justify-content-center">
-                                    <a class="btn btn-lg btn-primary rounded-pill back mx-2"><i
-                                            class="fas fa-angle-right"></i> السابق</a>
-                                    <button type="submit" name="submitBu"
-                                        class="btn btn-lg btn-primary rounded-pill  mx-2">حفظ وإنهاء<i
-                                            class="fas fa-angle-left"></i></button>
+                                <div class="tab-pane fade" role="tabpanel" id="step4" aria-labelledby="step4-tab" style="margin-top: 25px;">
+                                    <h3 class="text-center">القسم الرابع</h3>
+
+                                    <section id="basic-horizontal-layouts">
+                                        <div class="row justify-content-center">
+                                            <div class="col-md-8 col-12">
+                                                <div class="card" style="padding-bottom: 20px;">
+                                                    <div class="card-header">
+                                                        <h4 class="card-title">سياسة الدفع</h4>
+                                                    </div>
+
+                                                    <!-- Question Section -->
+                                                    <div id="question-section" class="text-center">
+                                                        <h5>هل تريد تقسيم مبلغ العرض المالي على دفعات؟</h5>
+                                                        <button type="button" class="btn btn-success mx-2" onclick="showInstallmentForm()">نعم</button>
+                                                        <button type="button" class="btn btn-danger mx-2" data-bs-toggle="modal" data-bs-target="#confirmationModal">لا</button>
+                                                    </div>
+
+                                                    <!-- Installment Form Section -->
+                                                    <div id="installment-form-section" style="display: none;">
+                                                        <div id="alert-container" style="padding: 0rem 1rem;" class="mb-3">
+                                                            <!-- Alerts will be injected here by JavaScript -->
+                                                        </div>
+                                                        <table class="table table-striped mb-0">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th style="text-align: center;">رقم الدفعة</th>
+                                                                    <th style="text-align: center;">نسبة الدفعة</th>
+                                                                    <th style="text-align: center;">الإجراءات</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody id="installmentTableBody">
+                                                                <!-- Rows will be added dynamically -->
+                                                            </tbody>
+                                                        </table>
+                                                        <button type="button" class="btn btn-primary mt-2" onclick="addInstallmentRow()">إضافة دفعة</button>
+                                                        <p id="totalPercentageMessage" class="text-danger mt-2 text-center"></p>
+                                                        <p id="checkIntegerMessage" class="text-danger mt-2 text-center"></p>
+                                                        <p id="checkInvalidInputMessage" class="text-danger mt-2 text-center"></p>
+                                                    </div>
+                                                </div>
+
+                                                <div class="d-flex justify-content-center">
+                                                    <a class="btn btn-lg btn-primary rounded-pill back mx-2"><i class="fas fa-angle-right"></i> السابق</a>
+                                                    <button id="saveButton" type="submit" name="submitBu" class="btn btn-lg btn-primary rounded-pill mx-2" disabled>حفظ وإنهاء<i class="fas fa-angle-left"></i></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
                                 </div>
                             </div>
 
+                        </form>
+                    </div>
+                </section>
 
 
-
-                            <!--     <div class="tab-pane fade" role="tabpanel" id="step5" aria-labelledby="step5-tab"
-                                    style="margin-top: 25px;">
-                                    <h3 class="text-center">القسم الخامس</h3>
+            </div>
 
 
-
-                                    <div class="d-flex justify-content-center">
-                                        <button type="button" class="btn btn-lg btn-primary rounded-pill back mx-2"><i
-                                                class="fas fa-angle-right"></i> السابق</button>
-                                        <button type="button"
-                                            class="btn btn-lg btn-primary rounded-pill next mx-2">التالي
-                                            <i class="fas fa-angle-left"></i></button>
-                                    </div>
-                                </div> -->
+            <!-- Modal for Confirmation -->
+            <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <h5 class="modal-title" id="confirmationModalLabel">هل انت متاكد؟</h5>
                         </div>
-
-                    </form>
-                </div>
-            </section>
-
-
-        </div>
-
-
-        <footer>
-            <div class="footer clearfix mb-0 text-muted">
-                <div class="float-start">
-                    <p>2024 &copy; Mazer</p>
-                </div>
-                <div class="float-end">
-                    <p>Crafted with <span class="text-danger"><i class="bi bi-heart"></i></span> by <a
-                            href="http://ahmadsaugi.com">A. Saugi</a></p>
+                        <div class="modal-body">
+                            سوف تدفع المبلغ الاجمالي للعرض المالي دفعه واحده كامله.
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                            <button type="button" class="btn btn-danger" id="confirmSinglePayment">لا ارغب بتقسيم المبلغ</button>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </footer>
-    </div>
+
+            <footer>
+                <div class="footer clearfix mb-0 text-muted">
+                    <div class="float-start">
+                        <p>2024 &copy; Mazer</p>
+                    </div>
+                    <div class="float-end">
+                        <p>Crafted with <span class="text-danger"><i class="bi bi-heart"></i></span> by <a href="http://ahmadsaugi.com">A. Saugi</a></p>
+                    </div>
+                </div>
+            </footer>
+        </div>
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -540,8 +531,6 @@ session_start();
 
 
     <script>
-
-
         // Function to check if all required fields are filled
         function checkRequiredFields() {
             let currentTabPane = document.querySelector('.tab-pane.active');
@@ -682,12 +671,12 @@ session_start();
         togglePointerEvents(false);
 
         // Automatically activate the first tab on page load
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('step1-tab').click();
         });
 
         // Service Table Calculations
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             function calculateRowTotal(row) {
                 const rate = parseFloat(row.querySelector('.rate').value) || 0;
                 const quantity = parseFloat(row.querySelector('.quantity').value) || 0;
@@ -706,7 +695,7 @@ session_start();
                 document.getElementById('overallTotal').value = overallTotal;
             }
 
-            document.getElementById('addRow').addEventListener('click', function () {
+            document.getElementById('addRow').addEventListener('click', function() {
                 const table = document.getElementById('serviceTable').getElementsByTagName('tbody')[0];
                 const newRow = table.insertRow();
 
@@ -728,21 +717,21 @@ session_start();
                     input.addEventListener('input', () => calculateRowTotal(newRow));
                 });
 
-                newRow.querySelector('.removeRow').addEventListener('click', function () {
+                newRow.querySelector('.removeRow').addEventListener('click', function() {
                     newRow.remove();
                     calculateOverallTotal();
                 });
             });
 
             document.querySelectorAll('#serviceTable .rate, #serviceTable .quantity').forEach(input => {
-                input.addEventListener('input', function () {
+                input.addEventListener('input', function() {
                     const row = input.closest('tr');
                     calculateRowTotal(row);
                 });
             });
 
             document.querySelectorAll('#serviceTable .removeRow').forEach(button => {
-                button.addEventListener('click', function () {
+                button.addEventListener('click', function() {
                     const row = button.closest('tr');
                     row.remove();
                     calculateOverallTotal();
@@ -753,13 +742,11 @@ session_start();
         });
 
         // Automatically set the current date in the date input field
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const creationDateInput = document.getElementById('creation-date');
             const today = new Date().toISOString().split('T')[0];
             creationDateInput.value = today;
         });
-
-
     </script>
 
 
@@ -771,6 +758,109 @@ session_start();
     <script src="assets/js/bootstrap.bundle.min.js"></script>
     <script src="assets/vendors/fontawesome/all.min.js"></script>
     <script src="assets/js/mazer.js"></script>
+
+    <script>
+        let installmentCount = 0;
+        let totalPercentage = 0;
+
+        function showInstallmentForm() {
+            document.getElementById('question-section').style.display = 'none';
+            document.getElementById('installment-form-section').style.display = 'block';
+        }
+
+        function hideInstallmentForm() {
+            document.getElementById('question-section').style.display = 'none';
+            document.getElementById('installment-form-section').innerHTML = '<p class="text-center">يمكنك الانتقال إلى التالي</p>';
+        }
+
+        function addInstallmentRow() {
+            installmentCount++;
+            const tableBody = document.getElementById('installmentTableBody');
+            const row = document.createElement('tr');
+            row.innerHTML = `
+            <td style="text-align: center;" name="installment-number[]" class="installment-number">${installmentCount}</td>
+            <td style="text-align: center;">
+                <input type="number" name="installment_percentage[]" class="form-control installment-percentage" onchange="updateFormValidity()" value="0" min="0" max="100" step="1" required>
+            </td>
+            <td style="text-align: center;">
+                <button type="button" class="btn btn-danger" onclick="removeInstallmentRow(this)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash2-fill" viewBox="0 0 16 16">
+                        <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
+                    </svg>
+                </button>
+            </td>
+        `;
+            tableBody.appendChild(row);
+            updateFormValidity();
+        }
+
+        function removeInstallmentRow(button) {
+            const row = button.parentNode.parentNode;
+            row.parentNode.removeChild(row);
+            installmentCount--;
+            updateFormValidity();
+            updateInstallmentNumbers();
+        }
+
+        function updateInstallmentNumbers() {
+            const numbers = document.querySelectorAll('.installment-number');
+            numbers.forEach((element, index) => {
+                element.textContent = index + 1;
+            });
+        }
+
+        function updateFormValidity() {
+            const percentages = document.querySelectorAll('.installment-percentage');
+            totalPercentage = Array.from(percentages).reduce((sum, input) => sum + Number(input.value), 0);
+
+            const alertContainer = document.getElementById('alert-container');
+            let isValid = true;
+
+            // Clear previous messages
+            alertContainer.innerHTML = '';
+
+            if (totalPercentage > 100) {
+                alertContainer.innerHTML += '<div class="alert alert-danger">مجموع النسب لا يمكن أن يتجاوز 100٪</div>';
+                isValid = false;
+            } else if (totalPercentage < 100) {
+                alertContainer.innerHTML += '<div class="alert alert-danger">مجموع النسب يجب أن يكون 100٪</div>';
+                isValid = false;
+            }
+
+            let hasDecimal = false;
+            let hasInvalidChar = false;
+            let hasZeroPercentage = false;
+            percentages.forEach(input => {
+                if (input.value.includes('.')) {
+                    hasDecimal = true;
+                }
+                if (/[^0-9]/.test(input.value)) {
+                    hasInvalidChar = true;
+                }
+                if (Number(input.value) <= 0) {
+                    hasZeroPercentage = true;
+                }
+            });
+
+            if (hasDecimal) {
+                alertContainer.innerHTML += '<div class="alert alert-danger">النسب لا يمكن أن تكون أعداد عشرية</div>';
+                isValid = false;
+            }
+
+            if (hasInvalidChar) {
+                alertContainer.innerHTML += '<div class="alert alert-danger">يرجى إدخال أرقام إنجليزية فقط</div>';
+                isValid = false;
+            }
+
+            if (hasZeroPercentage) {
+                alertContainer.innerHTML += '<div class="alert alert-danger">النسب يجب أن تكون أكبر من صفر</div>';
+                isValid = false;
+            }
+
+            document.getElementById('saveButton').disabled = !isValid;
+        }
+    </script>
+
 </body>
 
 </html>

@@ -400,7 +400,7 @@ $conn->close();
 
                                             $financial_offer_id = $_SESSION['offer_id'];
 
-                                            
+
                                             $query = "SELECT payment_number, payment_percentage FROM payments WHERE financial_offer_id = ?";
                                             $stmt = $conn->prepare($query);
                                             $stmt->bind_param("i", $financial_offer_id);
@@ -424,6 +424,16 @@ $conn->close();
                                         </tbody>
                                     </table>
                                 </div>
+                                <br>
+
+
+                                <div class="text-center mt-4">
+                                    <p>يتم تحويل المبلغ إلى حساب جمعية عون التقنية</p>
+                                    <img src="assets/images/samples/qr-code.png" alt="باركود حساب الشركة"
+                                        class="img-fluid" style="max-width: 15%;">
+                                </div>
+
+
                             </div>
                         </div>
                         <br>
