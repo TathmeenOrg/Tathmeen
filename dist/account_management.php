@@ -39,9 +39,7 @@
     }
 
     // جيب كل اليوزرز
-
-    $sql = "SELECT `id`, `firstname`, `email`, `role`, `phone_number` FROM `users`";
-
+    $sql = "SELECT `id`, `email`, `firstname`, `lastname`, `gender`, `role`, `phone_number` FROM `users`";
     $result = $conn->query($sql);
 
     //عملية حذف المستخدم
@@ -201,33 +199,35 @@
 
 
 
-                            <!-- <h4 class="card-title">قائمة المستخدمين</h4> -->
+
                         </div>
                         <div class="card-body">
-                            <!-- <div class="table-responsive"> -->
+
                             <table class="table table-striped" id="table1">
                                 <thead>
                                     <tr>
                                         <th>الرقم</th>
                                         <th>الاسم</th>
-                                        <th>البريد الإلكتروني</th>
+                                        <th>الجنس</th>
                                         <th>الدور</th>
                                         <th>رقم الهاتف</th>
+                                        <th>البريد الإلكتروني</th>
                                         <th>الإجراء</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
-    
+
                                    $serial_number = 1;
                                    if ($result->num_rows > 0) {
                                        while ($user = $result->fetch_assoc()) {
                                            echo "<tr>";
                                            echo "<td>{$serial_number}</td>";
-                                           echo "<td class='text-bold-500'>{$user['firstname']}</td>";
-                                           echo "<td>{$user['email']}</td>";
+                                           echo "<td class='text-bold-500'>{$user['firstname']} {$user['lastname']}</td>";
+                                           echo "<td class='text-bold-500'>" . ($user['gender'] == 'male' ? 'ذكر' : 'أنثى') . "</td>";
                                            echo "<td>{$user['role']}</td>";
                                            echo "<td>{$user['phone_number']}</td>";
+                                           echo "<td>{$user['email']}</td>";
                                            echo '<td>
                                                    <a href="#" class="btn btn-outline-danger ms-1" onclick="confirmDelete(' . $user['id'] . ')" data-bs-toggle="modal" data-bs-target="#dangerModal">
                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash2-fill" viewBox="0 0 16 16">
@@ -251,11 +251,9 @@
                                 
                                 </tbody>
                             </table>
-                            <!-- </div> -->
+                            
                         </div>
                     </div>
-                    <!-- </div> -->
-                    <!-- </div> -->
                 </section>
                 <!-- Hoverable rows end -->
             </div>

@@ -1,6 +1,7 @@
 <?php
 include('../database/config.php');
 session_start();
+$current_page = basename($_SERVER['PHP_SELF']);
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $action = $_POST['action'];
 
@@ -62,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/bootstrap.css">
 
-    
+
     <link rel="stylesheet" href="assets/vendors/iconly/bold.css">
 
     <link rel="stylesheet" href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
@@ -161,17 +162,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                         <li class="sidebar-title">قسم الإدارات</li>
                         <?php if ($_SESSION['user_role'] === 'super_admin') : ?>
-                        <li id='account_management' class='sidebar-item <?= $current_page == ' account_management.php'
-                            ? 'active' : '' ?>'>
-                            <a href='account_management.php' class='sidebar-link'>
-                                <i class='bi bi-person-square'></i>
-                                <span>إدارة الحسابات</span>
-                            </a>
-                        </li>
+                            <li id='account_management' class='sidebar-item <?= $current_page == ' account_management.php'
+                                                                                ? 'active' : '' ?>'>
+                                <a href='account_management.php' class='sidebar-link'>
+                                    <i class='bi bi-person-square'></i>
+                                    <span>إدارة الحسابات</span>
+                                </a>
+                            </li>
                         <?php endif; ?>
 
-                        <li
-                            class="sidebar-item <?= $current_page == 'financial_offers_management.php' ? 'active' : '' ?>">
+                        <li class="sidebar-item <?= $current_page == 'financial_offers_management.php' ? 'active' : '' ?>">
                             <a href="financial_offers_management.php" class='sidebar-link'>
                                 <i class="bi bi-briefcase-fill"></i>
                                 <span>إدارة العروض المالية</span>
@@ -188,20 +188,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         </li>
 
                         <?php if ($_SESSION['user_role'] === 'super_admin') : ?>
-                        <li class='sidebar-title'>قسم إدارة الشركة</li>
-                        <li class='sidebar-item <?= $current_page == ' company-information-form.php' ? 'active' : '' ?>
+                            <li class='sidebar-title'>قسم إدارة الشركة</li>
+                            <li class='sidebar-item <?= $current_page == ' company-information-form.php' ? 'active' : '' ?>
                             '>
-                            <a href='company-information-form.php' class='sidebar-link'>
-                                <i class='bi bi-info-circle-fill'></i>
-                                <span>إدارة معلومات الشركة</span>
-                            </a>
-                        </li>
-                        <li class='sidebar-item <?= $current_page == ' statementForm.php' ? 'active' : '' ?>'>
-                            <a href='statementForm.php' class='sidebar-link'>
-                                <i class='bi bi-file-earmark-spreadsheet-fill'></i>
-                                <span>إدارة بيان العروض المالية</span>
-                            </a>
-                        </li>
+                                <a href='company-information-form.php' class='sidebar-link'>
+                                    <i class='bi bi-info-circle-fill'></i>
+                                    <span>إدارة معلومات الشركة</span>
+                                </a>
+                            </li>
+                            <li class='sidebar-item <?= $current_page == ' statementForm.php' ? 'active' : '' ?>'>
+                                <a href='statementForm.php' class='sidebar-link'>
+                                    <i class='bi bi-file-earmark-spreadsheet-fill'></i>
+                                    <span>إدارة بيان العروض المالية</span>
+                                </a>
+                            </li>
                         <?php endif; ?>
 
                         <li class="sidebar-item" style="margin-top: 80px;">
@@ -258,27 +258,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                         </thead>
                                         <tbody id="statementTableBody">
                                             <?php
-                            include('../database/config.php');
-                            $sql = "SELECT id, statement_description FROM statements ORDER BY id ASC";
-                            $result = $conn->query($sql);
+                                            include('../database/config.php');
+                                            $sql = "SELECT id, statement_description FROM statements ORDER BY id ASC";
+                                            $result = $conn->query($sql);
 
-                            if ($result->num_rows > 0) {
-                                while ($row = $result->fetch_assoc()) {
-                                    echo "<tr>";
-                                    echo "<td class='statement-id' style='text-align: center;'>" . $row["id"] . "</td>";
-                                    echo "<td style='text-align: center;'><span class='description'>" . $row["statement_description"] . "</span><input type='text' class='form-control edit-input' value='" . $row["statement_description"] . "' style='display: none;'></td>";
-                                    echo "<td style='text-align: center;'>";
-                                    echo "<button class='btn btn-warning edit-btn' onclick='editStatement(this, " . $row["id"] . ")'><i class='bi bi-pencil-square'></i></button> ";
-                                    echo "<button class='btn btn-danger' onclick='showDeleteModal(" . $row["id"] . ")'><i class='bi bi-trash'></i></button>";
-                                    echo "<button class='btn btn-success save-btn' onclick='saveStatement(this, " . $row["id"] . ")' style='display: none;'><i class='bi bi-check'></i></button>";
-                                    echo "<button class='btn btn-secondary cancel-btn' onclick='cancelEdit(this)' style='display: none;'><i class='bi bi-x'></i></button>";
-                                    echo "</td>";
-                                    echo "</tr>";
-                                }
-                            } else {
-                                echo "<tr><td colspan='3' style='text-align: center;'>لا توجد بيانات</td></tr>";
-                            }
-                            ?>
+                                            if ($result->num_rows > 0) {
+                                                while ($row = $result->fetch_assoc()) {
+                                                    echo "<tr>";
+                                                    echo "<td class='statement-id' style='text-align: center;'>" . $row["id"] . "</td>";
+                                                    echo "<td style='text-align: center;'><span class='description'>" . $row["statement_description"] . "</span><input type='text' class='form-control edit-input' value='" . $row["statement_description"] . "' style='display: none;'></td>";
+                                                    echo "<td style='text-align: center;'>";
+                                                    echo "<button class='btn btn-warning edit-btn' onclick='editStatement(this, " . $row["id"] . ")'><i class='bi bi-pencil-square'></i></button> ";
+                                                    echo "<button class='btn btn-danger' onclick='showDeleteModal(" . $row["id"] . ")'><i class='bi bi-trash'></i></button>";
+                                                    echo "<button class='btn btn-success save-btn' onclick='saveStatement(this, " . $row["id"] . ")' style='display: none;'><i class='bi bi-check'></i></button>";
+                                                    echo "<button class='btn btn-secondary cancel-btn' onclick='cancelEdit(this)' style='display: none;'><i class='bi bi-x'></i></button>";
+                                                    echo "</td>";
+                                                    echo "</tr>";
+                                                }
+                                            } else {
+                                                echo "<tr><td colspan='3' style='text-align: center;'>لا توجد بيانات</td></tr>";
+                                            }
+                                            ?>
                                         </tbody>
                                     </table>
                                 </div>
@@ -299,61 +299,57 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
 
-        </div>
-        <!-- Modal -->
-        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header" style="background: #DF0500">
-                        <h5 class="modal-title" id="deleteModalLabel"
-                            style="width:50% font-family: 'Cairo', sans-serif;"> تأكيد الحذف </h5>
 
+            <!-- Modal -->
+            <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header" style="background: #DF0500">
+                            <h5 class="modal-title" id="deleteModalLabel" style="width:50%; font-family: 'Cairo', sans-serif;"> تأكيد الحذف </h5>
+
+                        </div>
+                        <div class="modal-body" style="font-family: 'Cairo', sans-serif;">
+                            هل أنت متأكد أنك تريد حذف هذا البند من البيان
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                            <button type="button" class="btn btn-danger" id="confirmDeleteButton">حذف</button>
+                        </div>
                     </div>
-                    <div class="modal-body" style="font-family: 'Cairo', sans-serif;">
-                        هل أنت متأكد أنك تريد حذف هذا البند من البيان
+
+
+                </div>
+            </div>
+            <!-- Logout Modal -->
+            <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <h5 class="modal-title" id="logoutModalLabel">تأكيد تسجيل الخروج</h5>
+
+                        </div>
+                        <div class="modal-body">
+                            هل أنت متأكد من أنك تريد تسجيل الخروج؟
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                            <a href="logout.php" class="btn btn-danger">تسجيل الخروج</a>
+                        </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
-                        <button type="button" class="btn btn-danger" id="confirmDeleteButton">حذف</button>
+                </div>
+            </div>
+            <footer>
+                <div class="footer clearfix mb-0 text-muted">
+                    <div class="float-start">
+                        <p>2021 &copy; Mazer</p>
+                    </div>
+                    <div class="float-end">
+                        <p>Crafted with <span class="text-danger"><i class="bi bi-heart"></i></span> by <a href="http://ahmadsaugi.com">A. Saugi</a></p>
                     </div>
                 </div>
-
-
-            </div>
+            </footer>
         </div>
-
-
-
-        <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    <h5 class="modal-title" id="logoutModalLabel">تأكيد تسجيل الخروج</h5>
-
-                </div>
-                <div class="modal-body">
-                    هل أنت متأكد من أنك تريد تسجيل الخروج؟
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
-                    <a href="logout.php" class="btn btn-danger">تسجيل الخروج</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <footer>
-        <div class="footer clearfix mb-0 text-muted">
-            <div class="float-start">
-                <p>2021 &copy; Mazer</p>
-            </div>
-            <div class="float-end">
-                <p>Crafted with <span class="text-danger"><i class="bi bi-heart"></i></span> by <a
-                        href="http://ahmadsaugi.com">A. Saugi</a></p>
-            </div>
-        </div>
-    </footer>
-
 
     </div>
 
@@ -388,7 +384,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             deleteModal.show();
         }
 
-        document.getElementById('confirmDeleteButton').addEventListener('click', function () {
+        document.getElementById('confirmDeleteButton').addEventListener('click', function() {
             deleteStatement(deleteId);
         });
 
@@ -398,9 +394,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             formData.append('id', id);
 
             fetch('', {
-                method: 'POST',
-                body: formData
-            })
+                    method: 'POST',
+                    body: formData
+                })
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
@@ -448,9 +444,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             formData.append('description', newDescription);
 
             fetch('', {
-                method: 'POST',
-                body: formData
-            })
+                    method: 'POST',
+                    body: formData
+                })
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
@@ -509,9 +505,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             formData.append('description', newDescription);
 
             fetch('', {
-                method: 'POST',
-                body: formData
-            })
+                    method: 'POST',
+                    body: formData
+                })
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
