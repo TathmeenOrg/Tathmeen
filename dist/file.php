@@ -1,5 +1,8 @@
+ffffiiiilllleeeee
+
+
 <?php
-include ('../database/config.php');
+include('../database/config.php');
 
 session_start();
 if (isset($_POST['action']) && $_POST['action'] == 'viewedFile') {
@@ -85,6 +88,76 @@ $conn->close();
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap" rel="stylesheet">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
+    <style>
+        canvas {
+            overflow-y: hidden;
+            overflow-x: hidden;
+            width: 100%;
+            margin: 0;
+        }
+
+        .success-animation {
+            margin: 150px auto;
+        }
+
+        .checkmark {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            display: block;
+            stroke-width: 2;
+            stroke: #4bb71b;
+            stroke-miterlimit: 10;
+            box-shadow: inset 0px 0px 0px #4bb71b;
+            animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
+            position: relative;
+            top: 5px;
+            right: 5px;
+            margin: 0 auto;
+        }
+
+        .checkmark__circle {
+            stroke-dasharray: 166;
+            stroke-dashoffset: 166;
+            stroke-width: 2;
+            stroke-miterlimit: 10;
+            stroke: #4bb71b;
+            fill: #fff;
+            animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+
+        }
+
+        .checkmark__check {
+            transform-origin: 50% 50%;
+            stroke-dasharray: 48;
+            stroke-dashoffset: 48;
+            animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+        }
+
+        @keyframes stroke {
+            100% {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        @keyframes scale {
+
+            0%,
+            100% {
+                transform: none;
+            }
+
+            50% {
+                transform: scale3d(1.1, 1.1, 1);
+            }
+        }
+
+        @keyframes fill {
+            100% {
+                box-shadow: inset 0px 0px 0px 30px #4bb71b;
+            }
+        }
+    </style>
 </head>
 
 <style>
@@ -191,9 +264,9 @@ $conn->close();
                         </li>
 
                         <li class="sidebar-title">قسم الإدارات</li>
-                        <?php if ($_SESSION['user_role'] === 'super_admin'): ?>
+                        <?php if ($_SESSION['user_role'] === 'super_admin') : ?>
                             <li id='account_management' class='sidebar-item <?= $current_page == ' account_management.php'
-                                ? 'active' : '' ?>'>
+                                                                                ? 'active' : '' ?>'>
                                 <a href='account_management.php' class='sidebar-link'>
                                     <i class='bi bi-person-square'></i>
                                     <span>إدارة الحسابات</span>
@@ -201,8 +274,7 @@ $conn->close();
                             </li>
                         <?php endif; ?>
 
-                        <li
-                            class="sidebar-item <?= $current_page == 'financial_offers_management.php' ? 'active' : '' ?>">
+                        <li class="sidebar-item <?= $current_page == 'financial_offers_management.php' ? 'active' : '' ?>">
                             <a href="financial_offers_management.php" class='sidebar-link'>
                                 <i class="bi bi-briefcase-fill"></i>
                                 <span>إدارة العروض المالية</span>
@@ -218,7 +290,7 @@ $conn->close();
                             </a>
                         </li>
 
-                        <?php if ($_SESSION['user_role'] === 'super_admin'): ?>
+                        <?php if ($_SESSION['user_role'] === 'super_admin') : ?>
                             <li class='sidebar-title'>قسم إدارة الشركة</li>
                             <li class='sidebar-item <?= $current_page == ' company-information-form.php' ? 'active' : '' ?>
                             '>
@@ -248,16 +320,17 @@ $conn->close();
         </div>
 
     </div>
-    <div id="main" style="font-family: 'Cairo', sans-serif;">
-        <header class="mb-3">
+    <div id="main" style="font-family: 'Cairo', sans-serif; height: 1095px;">
+        <header class="mb-3" style="z-index: 4;">
             <a href="#" class="burger-btn d-block d-xl-none">
                 <i class="bi bi-justify fs-3"></i>
             </a>
         </header>
 
+
         <div class="page-heading">
             <div class="page-title">
-                <div class="row">
+                <div class="row" style="z-index: 2; ">
                     <div class="col-12 col-md-6 order-md-1 order-last">
 
                         <p class="text-subtitle text-muted"> </p>
@@ -275,17 +348,23 @@ $conn->close();
             </div>
 
             <!-- //------------------------------------------------------- -->
-
             <section id="congratulationsSection" class="section">
-                <div class="card">
+                <div class="card" style="z-index: 3; position:absolute;">
                     <div class="card-body text-center">
                         <h3>مبروك!</h3>
                         <p>لقد أكملت العرض المالي بنجاح.</p>
+                        <div class="success-animation" style="margin: 20px auto;" style="z-index: 2; position: absolute;">
+                            <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                                <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none" />
+                                <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+                            </svg>
+                        </div>
                         <button id="showFileButton" class="btn btn-primary">عرض الملف</button>
                         <button id="exitButton" class="btn btn-primary">إنهاء </button>
                     </div>
                 </div>
             </section>
+
 
             <!-- //------------------------------------------------------- -->
 
@@ -341,7 +420,7 @@ $conn->close();
                                             </tr>
                                         </thead>
                                         <tbody id="services_table">
-                                            <?php foreach ($services as $index => $service): ?>
+                                            <?php foreach ($services as $index => $service) : ?>
                                                 <tr>
                                                     <td><?php echo $index + 1; ?></td>
                                                     <td><?php echo $service['service']; ?></td>
@@ -367,7 +446,7 @@ $conn->close();
                                             </tr>
                                         </thead>
                                         <tbody id="statements_table">
-                                            <?php foreach ($statements as $statement): ?>
+                                            <?php foreach ($statements as $statement) : ?>
                                                 <tr>
                                                     <td><?php echo $statement['id']; ?></td>
                                                     <td><?php echo $statement['statement_description']; ?></td>
@@ -391,7 +470,7 @@ $conn->close();
                                         </thead>
                                         <tbody id="payment_policy_table">
                                             <?php
-                                            include ('../database/config.php');
+                                            include('../database/config.php');
 
                                             if (!isset($_SESSION['offer_id'])) {
                                                 echo "<tr><td colspan='2'>لا يوجد عرض محدد.</td></tr>";
@@ -429,8 +508,7 @@ $conn->close();
 
                                 <div class="text-center mt-4">
                                     <p>يتم تحويل المبلغ إلى حساب جمعية عون التقنية</p>
-                                    <img src="assets/images/samples/qr-code.png" alt="باركود حساب الشركة"
-                                        class="img-fluid" style="max-width: 15%;">
+                                    <img src="assets/images/samples/qr-code.png" alt="باركود حساب الشركة" class="img-fluid" style="max-width: 15%;">
                                 </div>
 
 
@@ -440,7 +518,7 @@ $conn->close();
                         <div class="d-flex justify-content-center">
 
                             <?php
-                            include ('../database/config.php');
+                            include('../database/config.php');
 
                             $stmt = $conn->prepare("SELECT financialOffer_id FROM financialOffers WHERE financialOffer_id = ?");
                             $stmt->bind_param('i', $financialOffer_id);
@@ -459,39 +537,35 @@ $conn->close();
                         </div>
                     </div>
             </section>
-
-        </div>
-
-
-    </div>
-
-
-    <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    <h5 class="modal-title" id="logoutModalLabel">تأكيد تسجيل الخروج</h5>
-
-                </div>
-                <div class="modal-body">
-                    هل أنت متأكد من أنك تريد تسجيل الخروج؟
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
-                    <a href="logout.php" class="btn btn-danger">تسجيل الخروج</a>
+            <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true" style="z-index: 1050;">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <h5 class="modal-title" id="logoutModalLabel">تأكيد تسجيل الخروج</h5>
+                        </div>
+                        <div class="modal-body">
+                            هل أنت متأكد من أنك تريد تسجيل الخروج؟
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                            <a href="logout.php" class="btn btn-danger">تسجيل الخروج</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+        <canvas id="canvas" style="z-index: -1;"></canvas>
+
     </div>
+
     <footer>
         <div class="footer clearfix mb-0 text-muted">
             <div class="float-start">
                 <p>2021 &copy; Mazer</p>
             </div>
             <div class="float-end">
-                <p>Crafted with <span class="text-danger"><i class="bi bi-heart"></i></span> by <a
-                        href="http://ahmadsaugi.com">A. Saugi</a></p>
+                <p>Crafted with <span class="text-danger"><i class="bi bi-heart"></i></span> by <a href="http://ahmadsaugi.com">A. Saugi</a></p>
             </div>
         </div>
     </footer>
@@ -499,7 +573,7 @@ $conn->close();
 
     </div>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             var showFileButton = document.getElementById('showFileButton');
             var congratulationsSection = document.getElementById('congratulationsSection');
             var financialOfferSection = document.getElementById('financialOfferSection');
@@ -517,14 +591,25 @@ $conn->close();
                     .set({
                         margin: 10,
                         filename: fileName,
-                        image: { type: 'jpeg', quality: 0.98 },
-                        html2canvas: { dpi: 192, letterRendering: true, useCORS: true },
-                        jsPDF: { unit: 'pt', format: 'letter', orientation: 'portrait' }
+                        image: {
+                            type: 'jpeg',
+                            quality: 0.98
+                        },
+                        html2canvas: {
+                            dpi: 192,
+                            letterRendering: true,
+                            useCORS: true
+                        },
+                        jsPDF: {
+                            unit: 'pt',
+                            format: 'letter',
+                            orientation: 'portrait'
+                        }
                     })
                     .from(element)
                     .toPdf()
                     .get('pdf')
-                    .then(function (pdf) {
+                    .then(function(pdf) {
                         const pdfData = pdf.output('blob');
                         const formData = new FormData();
                         formData.append('pdf', pdfData, fileName);
@@ -547,25 +632,26 @@ $conn->close();
             }
 
 
-            document.getElementById('exitButton').addEventListener('click', function () {
-                generateAndSendPDF(function () {
+            document.getElementById('exitButton').addEventListener('click', function() {
+                generateAndSendPDF(function() {
                     window.location.href = 'index.php';
                 });
             });
 
 
-            showFileButton.addEventListener('click', function () {
+            showFileButton.addEventListener('click', function() {
 
+                document.getElementById('canvas').style.display = 'none';
                 var xhr = new XMLHttpRequest();
                 xhr.open('POST', 'file.php', true);
                 xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                 xhr.send('action=viewedFile');
 
 
-                xhr.onload = function () {
+                xhr.onload = function() {
                     if (xhr.status === 200) {
 
-                        generateAndSendPDF(function () {
+                        generateAndSendPDF(function() {
                             congratulationsSection.style.display = 'none';
                             financialOfferSection.style.display = 'block';
                         });
@@ -576,20 +662,121 @@ $conn->close();
             });
 
 
-            window.addEventListener('beforeunload', function (event) {
+            window.addEventListener('beforeunload', function(event) {
                 generateAndSendPDF();
                 event.returnValue = '';
             });
         });
     </script>
 
+    <script>
+        let W = window.innerWidth;
+        let H = window.innerHeight;
+        const canvas = document.getElementById("canvas");
+        const context = canvas.getContext("2d");
+        const maxConfettis = 150;
+        const particles = [];
 
+        const possibleColors = [
+            "DodgerBlue",
+            "OliveDrab",
+            "Gold",
+            "Pink",
+            "SlateBlue",
+            "LightBlue",
+            "Gold",
+            "Violet",
+            "PaleGreen",
+            "SteelBlue",
+            "SandyBrown",
+            "Chocolate",
+            "Crimson"
+        ];
 
+        function randomFromTo(from, to) {
+            return Math.floor(Math.random() * (to - from + 1) + from);
+        }
 
+        function confettiParticle() {
+            this.x = Math.random() * W; // x
+            this.y = Math.random() * H - H; // y
+            this.r = randomFromTo(11, 33); // radius
+            this.d = Math.random() * maxConfettis + 11;
+            this.color =
+                possibleColors[Math.floor(Math.random() * possibleColors.length)];
+            this.tilt = Math.floor(Math.random() * 33) - 11;
+            this.tiltAngleIncremental = Math.random() * 0.07 + 0.05;
+            this.tiltAngle = 0;
 
+            this.draw = function() {
+                context.beginPath();
+                context.lineWidth = this.r / 2;
+                context.strokeStyle = this.color;
+                context.moveTo(this.x + this.tilt + this.r / 3, this.y);
+                context.lineTo(this.x + this.tilt, this.y + this.tilt + this.r / 5);
+                return context.stroke();
+            };
+        }
 
+        function Draw() {
+            const results = [];
 
+            // Magical recursive functional love
+            requestAnimationFrame(Draw);
 
+            context.clearRect(0, 0, W, window.innerHeight);
+
+            for (var i = 0; i < maxConfettis; i++) {
+                results.push(particles[i].draw());
+            }
+
+            let particle = {};
+            let remainingFlakes = 0;
+            for (var i = 0; i < maxConfettis; i++) {
+                particle = particles[i];
+
+                particle.tiltAngle += particle.tiltAngleIncremental;
+                particle.y += (Math.cos(particle.d) + 3 + particle.r / 2) / 2;
+                particle.tilt = Math.sin(particle.tiltAngle - i / 3) * 15;
+
+                if (particle.y <= H) remainingFlakes++;
+
+                // If a confetti has fluttered out of view,
+                // bring it back to above the viewport and let if re-fall.
+                if (particle.x > W + 30 || particle.x < -30 || particle.y > H) {
+                    particle.x = Math.random() * W;
+                    particle.y = -30;
+                    particle.tilt = Math.floor(Math.random() * 10) - 20;
+                }
+            }
+
+            return results;
+        }
+
+        window.addEventListener(
+            "resize",
+            function() {
+                W = window.innerWidth;
+                H = window.innerHeight;
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            },
+            false
+        );
+
+        // Push new confetti objects to `particles[]`
+        for (var i = 0; i < maxConfettis; i++) {
+            particles.push(new confettiParticle());
+        }
+
+        // Initialize
+        canvas.width = W;
+        canvas.height = H;
+        Draw();
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.min.js"></script>
 
 </body>
 

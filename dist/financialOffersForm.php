@@ -21,12 +21,39 @@ session_start();
     <link rel="stylesheet" href="assets/css/app.css">
     <link rel="shortcut icon" href="assets/images/favicon.svg" type="image/x-icon">
 
-
+    <link rel="stylesheet" href="assets/vendors/iconly/bold.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap" rel="stylesheet">
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
+        .alert {
+            margin: 10px 0;
+            height: 3rem;
+            margin-left: 3rem;
+            /* text-align: center; */
+            margin-right: 3rem;
+        }
+
+        .alert-light-danger {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+
+        .color-danger {
+            color: #721c24;
+        }
+
+        .modal {
+            text-align: center;
+        }
+
+        .modal-dialog {
+            display: inline-block;
+            text-align: left;
+        }
+
         .wizard,
         .wizard .nav-tabs,
         .wizard .nav-tabs .nav-item {
@@ -208,23 +235,23 @@ session_start();
             </header>
 
             <div class="page-heading" style="font-family: 'Cairo', sans-serif;">
-            <div class="page-title">
-                <div class="row">
-                    <div class="col-12 col-md-6 order-md-1 order-last">
-                        <h3>نموذج العرض المالي</h3>
-                        <p class="text-subtitle text-muted" style="font-family: 'Cairo', sans-serif;">إنشاء عرض مالي
-                            جديد</p>
-                    </div>
-                    <div class="col-12 col-md-6 order-md-2 order-first">
-                        <nav aria-label="breadcrumb" class="breadcrumb-header float-start ">
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="index.html">الصفحة الرئيسة</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">إنشاء عرض مالي جديد</li>
-                            </ol>
-                        </nav>
+                <div class="page-title">
+                    <div class="row">
+                        <div class="col-12 col-md-6 order-md-1 order-last">
+                            <h3>نموذج العرض المالي</h3>
+                            <p class="text-subtitle text-muted" style="font-family: 'Cairo', sans-serif;">إنشاء عرض مالي
+                                جديد</p>
+                        </div>
+                        <div class="col-12 col-md-6 order-md-2 order-first">
+                            <nav aria-label="breadcrumb" class="breadcrumb-header float-start ">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="index.html">الصفحة الرئيسة</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">إنشاء عرض مالي جديد</li>
+                                </ol>
+                            </nav>
+                        </div>
                     </div>
                 </div>
-            </div>
                 <section>
                     <div class="container" style="font-family: 'Cairo', sans-serif;">
                         <div class="wizard my-5">
@@ -436,7 +463,6 @@ session_start();
 
                                 <div class="tab-pane fade" role="tabpanel" id="step4" aria-labelledby="step4-tab" style="margin-top: 25px;">
                                     <h3 class="text-center">القسم الرابع</h3>
-
                                     <section id="basic-horizontal-layouts">
                                         <div class="row justify-content-center">
                                             <div class="col-md-8 col-12">
@@ -444,6 +470,7 @@ session_start();
                                                     <div class="card-header">
                                                         <h4 class="card-title">سياسة الدفع</h4>
                                                     </div>
+                                                    <div id="alert-container"></div>
 
                                                     <!-- Question Section -->
                                                     <div id="question-section" class="text-center">
@@ -454,14 +481,16 @@ session_start();
 
                                                     <!-- Installment Form Section -->
                                                     <div id="installment-form-section" style="display: none;">
-                                                        <div id="alert-container" style="padding: 0rem 1rem;" class="mb-3">
-                                                            <!-- Alerts will be injected here by JavaScript -->
+                                                        <div id="alerts-section">
+                                                            <div id="totalPercentageMessage"></div>
+                                                            <div id="checkInvalidInputMessage"></div>
+                                                            <div id="checkIntegerMessage"></div>
                                                         </div>
                                                         <table class="table table-striped mb-0">
                                                             <thead>
                                                                 <tr>
                                                                     <th style="text-align: center;">رقم الدفعة</th>
-                                                                    <th style="text-align: center;">نسبة الدفعة</th>
+                                                                    <th style="text-align: center;">نسبة الدفعة (٪)</th>
                                                                     <th style="text-align: center;">الإجراءات</th>
                                                                 </tr>
                                                             </thead>
@@ -470,9 +499,6 @@ session_start();
                                                             </tbody>
                                                         </table>
                                                         <button type="button" class="btn btn-primary mt-2" onclick="addInstallmentRow()">إضافة دفعة</button>
-                                                        <p id="totalPercentageMessage" class="text-danger mt-2 text-center"></p>
-                                                        <p id="checkIntegerMessage" class="text-danger mt-2 text-center"></p>
-                                                        <p id="checkInvalidInputMessage" class="text-danger mt-2 text-center"></p>
                                                     </div>
                                                 </div>
 
@@ -500,10 +526,10 @@ session_start();
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            <h5 class="modal-title" id="confirmationModalLabel">هل انت متاكد؟</h5>
+                            <h5 class="modal-title" id="confirmationModalLabel">هل أنت متأكد ؟</h5>
                         </div>
                         <div class="modal-body">
-                            سوف تدفع المبلغ الاجمالي للعرض المالي دفعه واحده كامله.
+                            سوف تدفع المبلغ الإجمالي للعرض المالي دفعة واحدة كاملة.
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
@@ -512,7 +538,25 @@ session_start();
                     </div>
                 </div>
             </div>
+            <!-- Logout Modal -->
+            <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content" style="width: 150%;">
+                        <div class="modal-header">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <h5 class="modal-title" id="logoutModalLabel">تأكيد تسجيل الخروج</h5>
 
+                        </div>
+                        <div class="modal-body">
+                            هل أنت متأكد من أنك تريد تسجيل الخروج؟
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                            <a href="logout.php" class="btn btn-danger">تسجيل الخروج</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <footer>
                 <div class="footer clearfix mb-0 text-muted">
                     <div class="float-start">
@@ -761,104 +805,106 @@ session_start();
 
     <script>
         let installmentCount = 0;
-        let totalPercentage = 0;
 
         function showInstallmentForm() {
             document.getElementById('question-section').style.display = 'none';
             document.getElementById('installment-form-section').style.display = 'block';
+            document.getElementById('saveButton').disabled = true;
         }
 
         function hideInstallmentForm() {
-            document.getElementById('question-section').style.display = 'none';
-            document.getElementById('installment-form-section').innerHTML = '<p class="text-center">يمكنك الانتقال إلى التالي</p>';
+            document.getElementById('question-section').style.display = 'block';
+            document.getElementById('installment-form-section').style.display = 'none';
         }
 
         function addInstallmentRow() {
-            installmentCount++;
-            const tableBody = document.getElementById('installmentTableBody');
+            const tbody = document.getElementById('installmentTableBody');
             const row = document.createElement('tr');
+            const installmentNumber = installmentCount + 1;
+
             row.innerHTML = `
-            <td style="text-align: center;" name="installment-number[]" class="installment-number">${installmentCount}</td>
-            <td style="text-align: center;">
-                <input type="number" name="installment_percentage[]" class="form-control installment-percentage" onchange="updateFormValidity()" value="0" min="0" max="100" step="1" required>
-            </td>
-            <td style="text-align: center;">
-                <button type="button" class="btn btn-danger" onclick="removeInstallmentRow(this)">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash2-fill" viewBox="0 0 16 16">
-                        <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
-                    </svg>
-                </button>
-            </td>
+            <td style="text-align: center;">${installmentNumber}</td>
+            <td style="text-align: center;"><input type="number" class="form-control installment-percentage" name="installment_percentage[]" min="0" max="100" step="1" required></td>
+            <td style="text-align: center;"><button type="button" class="btn btn-danger" onclick="removeInstallmentRow(this)">حذف</button></td>
         `;
-            tableBody.appendChild(row);
-            updateFormValidity();
+            tbody.appendChild(row);
+            installmentCount++;
+
+            // Attach event listener to the new input for validation
+            row.querySelector('.installment-percentage').addEventListener('input', validateInstallmentPercentages);
+
+            validateInstallmentPercentages(); // Run validation
         }
 
         function removeInstallmentRow(button) {
-            const row = button.parentNode.parentNode;
-            row.parentNode.removeChild(row);
+            const row = button.closest('tr');
+            row.remove();
             installmentCount--;
-            updateFormValidity();
+
             updateInstallmentNumbers();
+            validateInstallmentPercentages(); // Run validation
         }
 
         function updateInstallmentNumbers() {
-            const numbers = document.querySelectorAll('.installment-number');
-            numbers.forEach((element, index) => {
-                element.textContent = index + 1;
+            const rows = document.querySelectorAll('#installmentTableBody tr');
+            rows.forEach((row, index) => {
+                row.querySelector('td').innerText = index + 1; // Update installment number
             });
         }
 
-        function updateFormValidity() {
+        function validateInstallmentPercentages() {
             const percentages = document.querySelectorAll('.installment-percentage');
-            totalPercentage = Array.from(percentages).reduce((sum, input) => sum + Number(input.value), 0);
+            let totalPercentage = 0;
+            let allInputsValid = true;
+            let allIntegers = true;
 
-            const alertContainer = document.getElementById('alert-container');
-            let isValid = true;
-
-            // Clear previous messages
-            alertContainer.innerHTML = '';
-
-            if (totalPercentage > 100) {
-                alertContainer.innerHTML += '<div class="alert alert-danger">مجموع النسب لا يمكن أن يتجاوز 100٪</div>';
-                isValid = false;
-            } else if (totalPercentage < 100) {
-                alertContainer.innerHTML += '<div class="alert alert-danger">مجموع النسب يجب أن يكون 100٪</div>';
-                isValid = false;
-            }
-
-            let hasDecimal = false;
-            let hasInvalidChar = false;
-            let hasZeroPercentage = false;
             percentages.forEach(input => {
-                if (input.value.includes('.')) {
-                    hasDecimal = true;
+                const value = parseFloat(input.value);
+                if (isNaN(value) || value < 1 || value > 100) {
+                    allInputsValid = false;
                 }
-                if (/[^0-9]/.test(input.value)) {
-                    hasInvalidChar = true;
-                }
-                if (Number(input.value) <= 0) {
-                    hasZeroPercentage = true;
+                totalPercentage += value;
+
+                // Check if the input is an integer
+                if (!Number.isInteger(value)) {
+                    allIntegers = false;
                 }
             });
 
-            if (hasDecimal) {
-                alertContainer.innerHTML += '<div class="alert alert-danger">النسب لا يمكن أن تكون أعداد عشرية</div>';
-                isValid = false;
+            const totalPercentageMessage = document.getElementById('totalPercentageMessage');
+            const checkIntegerMessage = document.getElementById('checkIntegerMessage');
+            const checkInvalidInputMessage = document.getElementById('checkInvalidInputMessage');
+
+            totalPercentageMessage.innerHTML = '';
+            checkIntegerMessage.innerHTML = '';
+            checkInvalidInputMessage.innerHTML = '';
+
+            if (totalPercentage !== 100) {
+                totalPercentageMessage.innerHTML = '<div class="alert alert-light-danger color-danger"><i class="bi bi-exclamation-circle"></i> يجب أن يكون مجموع النسب 100٪</div>';
             }
 
-            if (hasInvalidChar) {
-                alertContainer.innerHTML += '<div class="alert alert-danger">يرجى إدخال أرقام إنجليزية فقط</div>';
-                isValid = false;
+            if (!allInputsValid) {
+                checkInvalidInputMessage.innerHTML = '<div class="alert alert-light-danger color-danger"><i class="bi bi-exclamation-circle"></i> يجب أن تكون جميع النسب بين 1 و 100</div>';
             }
 
-            if (hasZeroPercentage) {
-                alertContainer.innerHTML += '<div class="alert alert-danger">النسب يجب أن تكون أكبر من صفر</div>';
-                isValid = false;
+            if (!allIntegers) {
+                checkIntegerMessage.innerHTML = '<div class="alert alert-light-danger color-danger"><i class="bi bi-exclamation-circle"></i> يجب أن تكون جميع القيم أعداد صحيحة</div>';
             }
 
-            document.getElementById('saveButton').disabled = !isValid;
+            document.getElementById('saveButton').disabled = !(totalPercentage === 100 && allInputsValid && allIntegers);
         }
+        document.getElementById('confirmSinglePayment').addEventListener('click', function() {
+            document.getElementById('question-section').remove();
+            document.getElementById('installment-form-section').remove();
+            document.getElementById('saveButton').disabled = false;
+            var alertContainer = document.getElementById('alert-container');
+            var alertMessage = document.createElement('div');
+            alertMessage.classList.add('alert', 'alert-success');
+            alertMessage.innerText = 'تمت إضافة دفعة واحدة بنسبة 100٪.';
+            alertContainer.appendChild(alertMessage);
+            var confirmationModal = new bootstrap.Modal(document.getElementById('confirmationModal'));
+            confirmationModal.hide();
+        });
     </script>
 
 </body>

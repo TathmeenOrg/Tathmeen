@@ -2,12 +2,10 @@
 include('config.php');
 session_start();
 
-
-
 $service = null;
 $price = null;
 $quantity = null;
-$total_service_price = 0; 
+$total_service_price = 0;
 $total_price = 0;
 $association_name = null;
 $created_at = null;
@@ -28,7 +26,7 @@ if (isset($_POST['submitBu'])) {
     $stmt->bind_param("isssii", $user_id, $created_at, $association_name, $client_address, $file_download_status, $total_price);
 
     if ($stmt->execute() === FALSE) {
-        exit; 
+        exit;
     } else {
         $_SESSION['offer_id'] = $stmt->insert_id;
     }
@@ -62,11 +60,40 @@ if (isset($_POST['submitBu'])) {
         echo "Total price updated successfully for Offer ID: " . $offer_id;
     }
 
+    // بيانات الدفعات من اليوزر
+    $paymentNumbers = range(1, count($_POST['installment_percentage'] ?? []));
+    $paymentPercentages = isset($_POST['installment_percentage']) ? $_POST['installment_percentage'] : [];
+
+    if (empty($paymentPercentages)) {
+        // (حالة الدفع (دفعة واحدة
+        $stmt = $conn->prepare("INSERT INTO payments (financial_offer_id, payment_percentage, payment_number) VALUES (?, ?, ?)");
+        $singlePaymentPercentage = 100;
+        $singlePaymentNumber = 1;
+        $stmt->bind_param("idi", $offer_id, $singlePaymentPercentage, $singlePaymentNumber);
+        if ($stmt->execute() === FALSE) {
+            echo "Error inserting single payment: " . $stmt->error;
+        } else {
+            echo "Single payment inserted successfully. Payment ID: " . $stmt->insert_id . ", Offer ID: " . $offer_id . "<br>";
+        }
+    } else {
+        // (حالة الدفع (مقسمه ع دفعات
+        for ($i = 0; $i < count($paymentPercentages); $i++) {
+            $paymentPercentage = floatval($paymentPercentages[$i] ?? 0);
+            $paymentNumber = intval($paymentNumbers[$i] ?? 0);
+
+            $stmt = $conn->prepare("INSERT INTO payments (financial_offer_id, payment_percentage, payment_number) VALUES (?, ?, ?)");
+            $stmt->bind_param("idi", $offer_id, $paymentPercentage, $paymentNumber);
+
+            if ($stmt->execute() === FALSE) {
+                echo "Error inserting payment installment: " . $stmt->error;
+                echo "Payment Percentage: $paymentPercentage, Payment Number: $paymentNumber, Offer ID: $offer_id<br>";
+            } else {
+                echo "Payment installment inserted successfully. Payment ID: " . $stmt->insert_id . ", Offer ID: " . $offer_id . "<br>";
+            }
+        }
+    }
+
     header('Location: ../dist/file.php?financialOffer_id=' . urlencode($offer_id));
-
-    
-
-  
 }
 exit;
 $conn->close();

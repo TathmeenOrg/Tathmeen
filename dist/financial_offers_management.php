@@ -32,7 +32,7 @@
 
     if ($_SESSION['user_role'] === 'super_admin') {
         //جيب كل العروض المالية في جدول العروض + اسم اليوزر من جدول اليوزر
-        $sql = "SELECT financialOffers.financialOffer_id, users.firstname as user_name, financialOffers.created_at, 
+        $sql = "SELECT financialOffers.financialOffer_id, CONCAT(users.firstname, ' ', users.lastname) as user_name, financialOffers.created_at, 
                 financialOffers.association_name, financialOffers.client_address, financialOffers.file_name, 
                 financialOffers.total_price, financialOffers.file_download_status 
                 FROM financialOffers 
