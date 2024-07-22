@@ -261,7 +261,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-8">
-                                                <h6 class="text-muted font-semibold">عدد الحسابات المسجلة في النظام</h6>
+                                                <h6 class="text-muted font-semibold">عدد الحسابات   </h6>
                                                 <h6 class="font-extrabold mb-0"><?php echo $count; ?></h6>
                                             </div>
                                         </div>
@@ -359,8 +359,8 @@
                                     echo "</div>";
                                 }
                                 echo "<div class='ms-3 name' style='padding-right: 10px;'>";
-                                echo "<h6 class='font-bold'>" . $_SESSION['user_name'] . "</h6>";
-                                echo "<h6 class='text-muted mb-0'>" . $_SESSION['user_role'] ." @</h6>";
+                                echo "<h5 class='font-bold'>" . $_SESSION['user_name'] . "</h5>";
+                                echo "<h6 class='text-muted mb-0'>" . $_SESSION['user_role'] ."@</h6>";
                                 echo "</div>";
                                 echo "</div>";
                                 ?>
