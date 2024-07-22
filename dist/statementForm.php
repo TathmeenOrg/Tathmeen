@@ -196,7 +196,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                     <span>إدارة معلومات الشركة</span>
                                 </a>
                             </li>
-                            <li class='sidebar-item <?= $current_page == ' statementForm.php' ? 'active' : '' ?>'>
+                            <li class='sidebar-item  active '>
                                 <a href='statementForm.php' class='sidebar-link'>
                                     <i class='bi bi-file-earmark-spreadsheet-fill'></i>
                                     <span>إدارة بيان العروض المالية</span>
@@ -232,7 +232,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <div class="col-12 col-md-6 order-md-2 order-first">
                             <nav aria-label="breadcrumb" class="breadcrumb-header float-start ">
                                 <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="index.html">الصفحة الرئيسة</a></li>
+                                    <li class="breadcrumb-item"><a href="index.php">الصفحة الرئيسة</a></li>
                                     <li class="breadcrumb-item active" aria-current="page">إدارة بيان الشركة</li>
                                 </ol>
                             </nav>
@@ -372,7 +372,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             const tableWidth = document.querySelector('.table-responsive').clientWidth;
 
             messageContainer.innerHTML = `
-            <div class="alert alert-${type} alert-dismissible show fade" style="width: 680px;">
+            <div class="alert alert-${type} alert-dismissible show fade" style="width: 860px;">
                 ${message}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>`;

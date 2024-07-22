@@ -245,7 +245,7 @@ session_start();
                         <div class="col-12 col-md-6 order-md-2 order-first">
                             <nav aria-label="breadcrumb" class="breadcrumb-header float-start ">
                                 <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="index.html">الصفحة الرئيسة</a></li>
+                                    <li class="breadcrumb-item"><a href="index.php">الصفحة الرئيسة</a></li>
                                     <li class="breadcrumb-item active" aria-current="page">إنشاء عرض مالي جديد</li>
                                 </ol>
                             </nav>

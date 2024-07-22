@@ -18,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $phone_number = $_POST['phone_number'];
     $password = $_POST['password'];
 
-    $user_id = $_SESSION['user_id'];
+    $user_id = $_POST['id'];
 
     $stmt = $conn->prepare("UPDATE users SET email=?, firstname=?, lastname=?, gender=?, age=?, role=?, phone_number=?, password=? WHERE id=?");
     if ($stmt === false) {

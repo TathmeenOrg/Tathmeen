@@ -213,6 +213,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
                                     </div>
                                     <div class="card-body">
                                         <form id="editForm" method="POST" action="../database/update.php" novalidate>
+                                        <input type="hidden" name="id" value="<?php echo $user['id']; ?>">
                                             <div class="accordion" id="accordionExample">
                                                 <div class="accordion-item">
                                                     <h2 class="accordion-header" id="headingOne">

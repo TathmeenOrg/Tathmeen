@@ -61,8 +61,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     try {
         $username = "root";
-        $password = "12345678";
-        $database = new PDO("mysql:host=127.0.0.1;dbname=tathmeen;charset=utf8", $username, $password);
+        $password = "";
+        $database = new PDO("mysql:host=localhost;dbname=tathmeen;charset=utf8", $username, $password);
 
         // تحقق من الرمز والبريد الإلكتروني
         $checkToken = $database->prepare("SELECT * FROM users WHERE email = :email AND security_code = :security_code");

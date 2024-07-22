@@ -65,8 +65,8 @@
                     <?php
                     if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['sendResetPassword']) && !empty($_POST['email'])) {
                         $username = "root";
-                        $password = "12345678";
-                        $database = new PDO("mysql:host=127.0.0.1;dbname=Tathmeen;charset=utf8", $username, $password);
+                        $password = "";
+                        $database = new PDO("mysql:host=localhost;dbname=tathmeen;charset=utf8", $username, $password);
 
                         $checkEmail = $database->prepare("SELECT email FROM users WHERE email = :email");
                         $checkEmail->bindParam(":email", $_POST['email']);
@@ -91,7 +91,7 @@
                             $mail->Body = '
                             رابط إعادة تعيين كلمة المرور
                             </br>
-                            ' . '<a href="http://localhost:8888/Tathmeen/dist/reset-password.php?email=' . $_POST['email'] . '&code=' . $security_code . '">http://localhost:8888/Tathmeen/dist/reset-password.php?email=' . $_POST['email'] . '&code=' . $security_code . '</a>';
+                            ' . '<a href="http://localhost/Tathmeen/dist/reset-password.php?email=' . $_POST['email'] . '&code=' . $security_code . '">http://localhost/Tathmeen/dist/reset-password.php?email=' . $_POST['email'] . '&code=' . $security_code . '</a>';
                             $mail->setFrom('manar.al.mashi.2003@gmail.com', 'نظام تثمين | عون التقنية');
                             $mail->send();
                             $_SESSION['alert_type'] = 'success';

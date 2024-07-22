@@ -1,5 +1,3 @@
-ffffiiiilllleeeee
-
 
 <?php
 include('../database/config.php');
@@ -72,6 +70,7 @@ $conn->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>نظام تثمين | ملف العرض المالي </title>
     <link rel="icon" href="assets/images/logo/tathmeen_logo.png">
+    
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
@@ -349,7 +348,7 @@ $conn->close();
 
             <!-- //------------------------------------------------------- -->
             <section id="congratulationsSection" class="section">
-                <div class="card" style="z-index: 3; position:absolute;">
+                <div class="card">
                     <div class="card-body text-center">
                         <h3>مبروك!</h3>
                         <p>لقد أكملت العرض المالي بنجاح.</p>
@@ -559,16 +558,6 @@ $conn->close();
 
     </div>
 
-    <footer>
-        <div class="footer clearfix mb-0 text-muted">
-            <div class="float-start">
-                <p>2021 &copy; Mazer</p>
-            </div>
-            <div class="float-end">
-                <p>Crafted with <span class="text-danger"><i class="bi bi-heart"></i></span> by <a href="http://ahmadsaugi.com">A. Saugi</a></p>
-            </div>
-        </div>
-    </footer>
     </div>
 
     </div>
