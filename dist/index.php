@@ -280,7 +280,15 @@
                                             <div class="col-md-8">
                                                 <h6 class="text-muted font-semibold">متوسط أسعار العروض المالية </h6>
                                                 <h6 class="font-extrabold mb-0">
-                                                    <?php echo number_format($average_price, 2); ?> ريال
+                                                    <?php
+                                                    if (is_numeric($average_price)) { 
+                                                        // Not Null
+                                                        echo number_format($average_price, 2) . " ريال";
+                                                    } else { 
+                                                        // Null
+                                                        echo "0.00 ريال";
+                                                    }
+                                                    ?>
                                                 </h6>
                                             </div>
                                         </div>
